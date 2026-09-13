@@ -6,6 +6,14 @@ then scan it to open the record in Library.
 
 Repository: `QR-Item-Manager` · App name: **QR Item Manager**
 
+This repository contains two project branches:
+
+- [project-1-item-manager](https://github.com/syazanne/QR-Item-Manager/tree/project-1-item-manager): QR-based item management system (this branch).
+- [project-2-ai-prototype](https://github.com/syazanne/QR-Item-Manager/tree/project-2-ai-prototype): AI-assisted manual/support prototype.
+
+The [main branch](https://github.com/syazanne/QR-Item-Manager/tree/main) provides
+the general repository introduction. Each project has its own code and setup instructions.
+
 **New here?** Follow the [step-by-step user guide](docs/USER_GUIDE.md), covering
 field setup, your first item, QR labels, scanning, updates, and Backup & Restore.
 You can also open **How to use** below the Scan QR button on Home.
