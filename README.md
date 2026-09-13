@@ -40,7 +40,7 @@ Tested with Python 3.9.6 and Streamlit 1.50. Dependencies are listed in
 `requirements.txt`. These commands are for macOS/Linux.
 
 ```bash
-git clone --branch project-1-equipment-manager https://github.com/syazanne/QR-Item-Manager.git
+git clone --branch project-1-item-manager https://github.com/syazanne/QR-Item-Manager.git
 cd QR-Item-Manager
 python3 -m venv .venv
 source .venv/bin/activate
