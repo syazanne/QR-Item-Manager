@@ -1,87 +1,106 @@
-# QR-Based Equipment Support and Management System
+# QR-Based Equipment Management System
 
-A local-first Streamlit application for managing equipment documentation and
-quick support access through QR codes.
+**App name:** QR Equipment Manager
 
-This is an equipment support and management system, not a clinical decision
-support system. Users scan a QR code attached to equipment to open the correct
-equipment page. The QR code stores only the stable `equipment_id` value, never a
-URL, so the QR label remains independent of the local app address.
+QR Equipment Manager is a local-first Streamlit application for managing
+university lab, clinic/laboratory, company, factory, borrowed, and demo
+equipment. Users scan the QR code attached to equipment to open the correct
+Equipment Page, or enter an Equipment ID manually.
 
-## What This System Does
+This Project 1 release is management-only. It supports equipment records,
+official local documentation, setup and troubleshooting notes, service/contact
+information, and service tracking. It is not a clinical decision support
+system and does not provide diagnosis or treatment recommendations.
 
-- Registers equipment with an ID, name, location, and description.
-- Uploads official or verified PDF documentation locally.
-- Generates one QR code per equipment ID.
-- Opens an equipment page from a browser camera scan or manual ID entry.
-- Provides local keyword search across extracted PDF text.
-- Supports manual, setup notes, troubleshooting notes, service information,
-  and supplier/contact information as the equipment workflow grows.
-- Preserves the existing QR code when equipment details or documentation are
-  updated.
-- Includes a placeholder for future local AI manual search.
+## Core Features
 
-## Use Cases
+- Register equipment with a permanent `equipment_id`.
+- Upload official equipment manuals locally.
+- Generate one permanent QR code per equipment ID.
+- Store only `equipment_id` in each QR code, never a URL.
+- Scan QR codes through the browser camera after clicking **Scan QR**.
+- Use manual Equipment ID entry as a fallback.
+- Search the compact Equipment Library by ID, name, location, or supplier/vendor.
+- View equipment details, documentation, notes, service dates, and contact info.
+- Perform Manual Keyword Search against locally extracted PDF text.
+- Update equipment data or manuals without regenerating the QR code.
+- Manage up to six custom fields per equipment item.
+- Delete equipment for authorized admin/debug cleanup with confirmation.
 
-- University lab equipment management.
-- Clinic or laboratory equipment quick reference.
-- Borrowed or demo equipment support.
-- Factory equipment support.
-- Service and maintenance information tracking.
+## Equipment Fields
 
-## What This System Does Not Do
+Each equipment record supports:
 
-- It does not make clinical decisions.
-- It does not provide diagnosis or treatment recommendations.
-- It does not replace official training or safety procedures.
-- It does not search the internet for manuals.
-- It only uses documentation uploaded and verified by an authorized user.
-- It does not currently provide external AI answers; the AI area is a
-  placeholder for a future documentation-grounded feature.
+- Equipment ID
+- Equipment Name
+- Location
+- Description
+- Supplier / Vendor
+- Contact Person
+- Contact Info
+- Purchase Date
+- Installation Date
+- Last Service Date
+- Next Service Date
+- Setup Notes
+- Troubleshooting Notes
+- Up to six custom fields with a Field Name and Field Value
 
-## Version 1 Features
+Example custom fields include Asset Tag, Warranty End Date, Calibration Due
+Date, Service Interval, Department, and Responsible Person.
 
-### Home
+## QR Code Rules
 
-- Start browser-based QR scanning only after the user clicks **Scan QR**.
-- Use manual equipment ID entry as a backup.
-- Open the matching equipment page from the local SQLite database.
-
-### Equipment Library
-
-- Search by equipment ID, name, or location.
-- View a compact table of registered equipment.
-- Open an equipment page from the table.
-- See whether verified documentation and a QR code are available.
-
-### Admin Equipment Upload
-
-- Create new equipment records and upload official PDF documentation.
-- Extract searchable text locally using `pypdf`.
-- Generate a QR code containing only the equipment ID.
-- Update details or replace documentation without changing the QR code.
-- Explicitly regenerate a QR code only when needed.
-- Delete records and local files only after typing the equipment ID to confirm.
-
-### Equipment Page
-
-- Display equipment details, location, description, and documentation status.
-- Download or open the uploaded PDF locally.
-- Search extracted documentation by keyword.
-- Show a future AI manual search placeholder.
-
-## QR Code Design
-
-QR codes contain only the stable equipment ID, for example:
+QR content is only the equipment ID, for example:
 
 ```text
 LAB-MICROSCOPE-001
 ```
 
-They never contain a full URL. Updating the equipment name, location,
-description, service information, or PDF documentation does not create a new
-QR code. A new QR code is generated only when a new equipment ID is created or
-an authorized user explicitly selects **Regenerate QR**.
+QR codes do not contain full URLs. The QR code is generated when a new
+Equipment ID is created and remains associated with that ID. Updating the name,
+manual, service information, notes, or custom fields does not regenerate it.
+Changing an Equipment ID is blocked because the physical QR sticker would need
+to be replaced. Regeneration is available only through the explicit
+**Regenerate QR** admin action.
+
+## Pages
+
+### Home
+
+- Start the camera scanner intentionally with **Scan QR**.
+- Stop or cancel scanning.
+- Enter an Equipment ID manually.
+
+### Equipment Library
+
+- Search by Equipment ID, Equipment Name, Location, or Supplier/Vendor.
+- View a compact bordered table sorted by Equipment ID.
+- Open an Equipment Page through the row's **Show** link.
+- View QR status only. QR downloads are managed elsewhere.
+
+### Admin Panel
+
+- Create new equipment and upload official PDF documentation.
+- Update equipment fields and replace documentation.
+- View existing QR images.
+- Regenerate a QR only through explicit admin action.
+- Delete equipment and optional local files after typing the Equipment ID to
+  confirm.
+
+### Equipment Page
+
+- View equipment, supplier/contact, service, setup, and troubleshooting data.
+- Open or download the local documentation PDF.
+- Run Manual Keyword Search on extracted PDF text.
+- View custom fields.
+
+## Project 2 Direction
+
+The earlier AI/manual-assistant ideas are intentionally preserved for a future
+Project 2. Project 1 does not include AI features or an Ask AI interface.
+Project 2 may later add documentation-grounded local AI search and question
+answering as a separate stage, without changing the permanent QR design.
 
 ## Run Locally
 
@@ -92,22 +111,20 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Open the local URL shown by Streamlit in a browser. Camera permission is
-requested only after the user starts the QR scanner.
+Camera permission is requested only after the user clicks **Scan QR**.
 
-## Local Storage and Public Repo Safety
+## Local Storage and Public Repository Safety
 
-Runtime files stay local:
+Runtime data stays local in these folders:
 
-- `manuals/`: uploaded PDF documentation.
+- `manuals/`: uploaded PDF manuals.
 - `data/`: SQLite database and extracted text.
 - `qr_codes/`: generated QR images.
 
-These folders are kept in the project with `.gitkeep` files, while their
-contents are ignored by Git. Database files, uploaded documents, generated QR
-images, Python environments, caches, and local spreadsheets are not intended
-for the public repository. Do not upload private, company, personal, or
-confidential equipment data.
+These directories contain `.gitkeep` files so the structure is available in a
+fresh clone. Their runtime contents are ignored by Git. Do not commit uploaded
+manuals, SQLite databases, generated QR images, or private/company/personal
+equipment data.
 
 ## Technology Stack
 
@@ -117,11 +134,3 @@ confidential equipment data.
 - `qrcode` and Pillow
 - `pypdf` for PDF text extraction
 - Browser-based QR scanning when available
-
-## Future Improvements
-
-- Structured service and maintenance history.
-- Supplier and contact fields.
-- Role-based administration.
-- Offline/local AI search grounded only in verified documentation.
-- Export and reporting tools.

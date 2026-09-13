@@ -30,7 +30,7 @@ for directory in (DATA_DIR, MANUALS_DIR, QRCODES_DIR):
 
 initialize_db(DB_PATH)
 
-st.set_page_config(page_title="QR-Based Equipment Support and Management System", page_icon="🔧", layout="wide")
+st.set_page_config(page_title="QR Equipment Manager", page_icon="🔧", layout="wide")
 
 
 def navigate_to_machine(machine_id: str) -> None:
@@ -110,7 +110,7 @@ def render_library() -> None:
     st.title("Equipment Library")
     search_query = st.text_input(
         "Search equipment",
-        placeholder="Search by equipment ID, name, or location",
+        placeholder="Search by equipment ID, name, location, or supplier/vendor",
         key="library_search",
     ).strip().lower()
     machines = sorted(get_all_machines(DB_PATH), key=lambda machine: machine["machine_id"].lower())
@@ -121,7 +121,7 @@ def render_library() -> None:
             for machine in machines
             if any(
                 search_query in str(machine[field] or "").lower()
-                for field in ("machine_id", "machine_name", "location")
+                for field in ("machine_id", "machine_name", "location", "supplier_vendor")
             )
         ]
 
@@ -138,11 +138,12 @@ def render_library() -> None:
         machine_id = html.escape(str(machine["machine_id"]))
         machine_name = html.escape(str(machine["machine_name"]))
         location = html.escape(str(machine["location"]))
+        supplier_vendor = html.escape(str(machine.get("supplier_vendor") or "Not provided"))
         machine_url = f"?machine_id={quote(str(machine['machine_id']))}"
         qr_status = "Available" if machine["qr_filename"] else "Not available"
         table_rows.append(
             f'<tr><td>{machine_id}</td><td>{machine_name}</td>'
-            f'<td>{location}</td><td><a href="{machine_url}" '
+            f'<td>{location}</td><td>{supplier_vendor}</td><td><a href="{machine_url}" '
             f'target="_self" rel="noopener">Show</a></td><td>{qr_status}</td></tr>'
         )
 
@@ -191,6 +192,7 @@ def render_library() -> None:
                     <th>Equipment ID</th>
                     <th>Equipment Name</th>
                     <th>Location</th>
+                    <th>Supplier/Vendor</th>
                     <th>Equipment Page</th>
                     <th>QR Code</th>
                 </tr>
@@ -207,7 +209,7 @@ def render_library() -> None:
 
 
 def render_admin_upload() -> None:
-    st.title("Admin Equipment Upload")
+    st.title("Admin Panel")
     st.caption("Register equipment, upload verified documentation, and generate a QR code that stores only the equipment ID.")
 
     with st.form("machine_upload_form"):
@@ -215,6 +217,23 @@ def render_admin_upload() -> None:
         machine_name = st.text_input("Equipment Name")
         location = st.text_input("Location")
         description = st.text_area("Description")
+        supplier_vendor = st.text_input("Supplier / Vendor")
+        contact_person = st.text_input("Contact Person")
+        contact_info = st.text_input("Contact Info")
+        purchase_date = st.text_input("Purchase Date", placeholder="YYYY-MM-DD")
+        installation_date = st.text_input("Installation Date", placeholder="YYYY-MM-DD")
+        last_service_date = st.text_input("Last Service Date", placeholder="YYYY-MM-DD")
+        next_service_date = st.text_input("Next Service Date", placeholder="YYYY-MM-DD")
+        setup_notes = st.text_area("Setup Notes")
+        troubleshooting_notes = st.text_area("Troubleshooting Notes")
+        st.caption("Custom Fields (up to 6)")
+        create_custom_fields = []
+        for index in range(6):
+            field_col, value_col = st.columns(2)
+            field_name = field_col.text_input("Field Name", key=f"create_custom_name_{index}")
+            field_value = value_col.text_input("Field Value", key=f"create_custom_value_{index}")
+            if field_name.strip():
+                create_custom_fields.append({"name": field_name.strip(), "value": field_value.strip()})
         uploaded_pdf = st.file_uploader("Upload equipment documentation PDF", type=["pdf"])
 
         submitted = st.form_submit_button("Create New Equipment + Generate QR", type="primary")
@@ -263,6 +282,16 @@ def render_admin_upload() -> None:
                     "machine_name": machine_name,
                     "location": location,
                     "description": description,
+                    "supplier_vendor": supplier_vendor,
+                    "contact_person": contact_person,
+                    "contact_info": contact_info,
+                    "purchase_date": purchase_date,
+                    "installation_date": installation_date,
+                    "last_service_date": last_service_date,
+                    "next_service_date": next_service_date,
+                    "setup_notes": setup_notes,
+                    "troubleshooting_notes": troubleshooting_notes,
+                    "custom_fields": create_custom_fields,
                     "manual_filename": manual_path.name,
                     "qr_filename": qr_filename,
                 },
@@ -283,7 +312,7 @@ def render_admin_upload() -> None:
 
     admin_search = st.text_input(
         "Search existing equipment",
-        placeholder="Search by equipment ID, name, or location",
+        placeholder="Search by equipment ID, name, location, or supplier/vendor",
         key="admin_machine_search",
     ).strip().lower()
     filtered_machines = [
@@ -292,7 +321,7 @@ def render_admin_upload() -> None:
         if not admin_search
         or any(
             admin_search in str(machine[field] or "").lower()
-            for field in ("machine_id", "machine_name", "location")
+            for field in ("machine_id", "machine_name", "location", "supplier_vendor")
         )
     ]
     if not filtered_machines:
@@ -321,6 +350,35 @@ def render_admin_upload() -> None:
         edited_machine_name = st.text_input("Equipment Name", value=existing_machine["machine_name"])
         edited_location = st.text_input("Location", value=existing_machine["location"])
         edited_description = st.text_area("Description", value=existing_machine["description"] or "")
+        edited_supplier_vendor = st.text_input("Supplier / Vendor", value=existing_machine.get("supplier_vendor") or "")
+        edited_contact_person = st.text_input("Contact Person", value=existing_machine.get("contact_person") or "")
+        edited_contact_info = st.text_input("Contact Info", value=existing_machine.get("contact_info") or "")
+        edited_purchase_date = st.text_input("Purchase Date", value=existing_machine.get("purchase_date") or "")
+        edited_installation_date = st.text_input("Installation Date", value=existing_machine.get("installation_date") or "")
+        edited_last_service_date = st.text_input("Last Service Date", value=existing_machine.get("last_service_date") or "")
+        edited_next_service_date = st.text_input("Next Service Date", value=existing_machine.get("next_service_date") or "")
+        edited_setup_notes = st.text_area("Setup Notes", value=existing_machine.get("setup_notes") or "")
+        edited_troubleshooting_notes = st.text_area(
+            "Troubleshooting Notes", value=existing_machine.get("troubleshooting_notes") or ""
+        )
+        st.caption("Custom Fields (up to 6)")
+        existing_custom_fields = existing_machine.get("custom_fields", [])
+        edited_custom_fields = []
+        for index in range(6):
+            current_field = existing_custom_fields[index] if index < len(existing_custom_fields) else {}
+            field_col, value_col = st.columns(2)
+            field_name = field_col.text_input(
+                "Field Name",
+                value=current_field.get("name", ""),
+                key=f"update_custom_name_{selected_id}_{index}",
+            )
+            field_value = value_col.text_input(
+                "Field Value",
+                value=current_field.get("value", ""),
+                key=f"update_custom_value_{selected_id}_{index}",
+            )
+            if field_name.strip():
+                edited_custom_fields.append({"name": field_name.strip(), "value": field_value.strip()})
         replacement_pdf = st.file_uploader(
             "Replace manual PDF (optional)",
             type=["pdf"],
@@ -363,6 +421,16 @@ def render_admin_upload() -> None:
                     "machine_name": edited_machine_name,
                     "location": edited_location,
                     "description": edited_description,
+                    "supplier_vendor": edited_supplier_vendor,
+                    "contact_person": edited_contact_person,
+                    "contact_info": edited_contact_info,
+                    "purchase_date": edited_purchase_date,
+                    "installation_date": edited_installation_date,
+                    "last_service_date": edited_last_service_date,
+                    "next_service_date": edited_next_service_date,
+                    "setup_notes": edited_setup_notes,
+                    "troubleshooting_notes": edited_troubleshooting_notes,
+                    "custom_fields": edited_custom_fields,
                     "manual_filename": manual_filename,
                 },
             )
@@ -451,6 +519,13 @@ def render_machine_page(selected_machine_id: str) -> None:
         st.write(f"**Location:** {machine['location']}")
         st.write(f"**Description:** {machine['description'] or 'No description provided.'}")
         st.write(f"**Documentation File:** {machine['manual_filename'] or 'Not uploaded'}")
+        st.write(f"**Supplier / Vendor:** {machine.get('supplier_vendor') or 'Not provided'}")
+        st.write(f"**Contact Person:** {machine.get('contact_person') or 'Not provided'}")
+        st.write(f"**Contact Info:** {machine.get('contact_info') or 'Not provided'}")
+        st.write(f"**Purchase Date:** {machine.get('purchase_date') or 'Not provided'}")
+        st.write(f"**Installation Date:** {machine.get('installation_date') or 'Not provided'}")
+        st.write(f"**Last Service Date:** {machine.get('last_service_date') or 'Not provided'}")
+        st.write(f"**Next Service Date:** {machine.get('next_service_date') or 'Not provided'}")
 
     with col2:
         qr_path = QRCODES_DIR / (machine['qr_filename'] if machine['qr_filename'] else "")
@@ -480,8 +555,8 @@ def render_machine_page(selected_machine_id: str) -> None:
                     st.caption("The manual file is available locally and can be downloaded above.")
 
     st.markdown("---")
-    st.subheader("Documentation Search")
-    search_query = st.text_input("Search by keyword", key=f"manual_search_{selected_machine_id}")
+    st.subheader("Manual Keyword Search")
+    search_query = st.text_input("Search manual by keyword", key=f"manual_search_{selected_machine_id}")
     if search_query:
         text_index_path = DATA_DIR / "manual_text" / f"{selected_machine_id}.txt"
         if text_index_path.exists():
@@ -493,14 +568,21 @@ def render_machine_page(selected_machine_id: str) -> None:
             else:
                 st.warning("No matching text was found in the uploaded manual for that keyword.")
         else:
-                st.warning("No searchable text was found for this equipment documentation yet.")
+            st.warning("No searchable text was found for this equipment documentation yet.")
     else:
         st.caption("Enter a keyword to search the uploaded manual content.")
 
     st.markdown("---")
-    st.subheader("Future AI Manual Search")
-    st.info("Placeholder only: a future local AI feature may search verified equipment documentation. No clinical decisions, treatment recommendations, or external AI calls are implemented.")
-    st.text_area("Ask about this equipment documentation", placeholder="Example: What are the setup steps?", disabled=True)
+    st.subheader("Setup Notes")
+    st.write(machine.get("setup_notes") or "No setup notes provided.")
+    st.subheader("Troubleshooting Notes")
+    st.write(machine.get("troubleshooting_notes") or "No troubleshooting notes provided.")
+
+    custom_fields = machine.get("custom_fields", [])
+    if custom_fields:
+        st.subheader("Custom Fields")
+        for custom_field in custom_fields[:6]:
+            st.write(f"**{custom_field.get('name', '')}:** {custom_field.get('value', '')}")
 
 
 def main() -> None:
@@ -516,7 +598,7 @@ def main() -> None:
     handle_machine_query_parameter()
 
     with st.sidebar:
-        st.title("Menu")
+        st.title("QR Equipment Manager")
         for page_name in ["Home", "Library", "Admin Upload"]:
             if st.button(page_name, key=f"nav_{page_name}"):
                 st.query_params.clear()

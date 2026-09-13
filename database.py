@@ -1,10 +1,24 @@
 from __future__ import annotations
 
 import sqlite3
+import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 DB_PATH = Path(__file__).resolve().parent / "data" / "machines.db"
+
+EQUIPMENT_FIELDS = (
+    "supplier_vendor",
+    "contact_person",
+    "contact_info",
+    "purchase_date",
+    "installation_date",
+    "last_service_date",
+    "next_service_date",
+    "setup_notes",
+    "troubleshooting_notes",
+    "custom_fields",
+)
 
 
 def initialize_db(db_path: Path) -> Path:
@@ -21,10 +35,28 @@ def initialize_db(db_path: Path) -> Path:
             description TEXT,
             manual_filename TEXT,
             qr_filename TEXT,
+            supplier_vendor TEXT,
+            contact_person TEXT,
+            contact_info TEXT,
+            purchase_date TEXT,
+            installation_date TEXT,
+            last_service_date TEXT,
+            next_service_date TEXT,
+            setup_notes TEXT,
+            troubleshooting_notes TEXT,
+            custom_fields TEXT DEFAULT '[]',
             created_at TEXT DEFAULT CURRENT_TIMESTAMP
         )
         """
     )
+    columns = {
+        row[1]
+        for row in connection.execute("PRAGMA table_info(machines)").fetchall()
+    }
+    for field in EQUIPMENT_FIELDS:
+        if field not in columns:
+            default = " DEFAULT '[]'" if field == "custom_fields" else ""
+            connection.execute(f"ALTER TABLE machines ADD COLUMN {field} TEXT{default}")
     connection.commit()
     connection.close()
     return db_path
@@ -47,8 +79,18 @@ def insert_machine(db_path: Path, machine: Dict[str, Any]) -> None:
                 location,
                 description,
                 manual_filename,
-                qr_filename
-            ) VALUES (?, ?, ?, ?, ?, ?)
+                qr_filename,
+                supplier_vendor,
+                contact_person,
+                contact_info,
+                purchase_date,
+                installation_date,
+                last_service_date,
+                next_service_date,
+                setup_notes,
+                troubleshooting_notes,
+                custom_fields
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 machine["machine_id"],
@@ -57,6 +99,16 @@ def insert_machine(db_path: Path, machine: Dict[str, Any]) -> None:
                 machine.get("description", ""),
                 machine.get("manual_filename"),
                 machine.get("qr_filename"),
+                machine.get("supplier_vendor", ""),
+                machine.get("contact_person", ""),
+                machine.get("contact_info", ""),
+                machine.get("purchase_date", ""),
+                machine.get("installation_date", ""),
+                machine.get("last_service_date", ""),
+                machine.get("next_service_date", ""),
+                machine.get("setup_notes", ""),
+                machine.get("troubleshooting_notes", ""),
+                json.dumps(machine.get("custom_fields", [])),
             ),
         )
         connection.commit()
@@ -71,7 +123,17 @@ def update_machine(db_path: Path, machine_id: str, machine: Dict[str, Any]) -> N
             SET machine_name = ?,
                 location = ?,
                 description = ?,
-                manual_filename = ?
+                manual_filename = ?,
+                supplier_vendor = ?,
+                contact_person = ?,
+                contact_info = ?,
+                purchase_date = ?,
+                installation_date = ?,
+                last_service_date = ?,
+                next_service_date = ?,
+                setup_notes = ?,
+                troubleshooting_notes = ?,
+                custom_fields = ?
             WHERE machine_id = ?
             """,
             (
@@ -79,6 +141,16 @@ def update_machine(db_path: Path, machine_id: str, machine: Dict[str, Any]) -> N
                 machine["location"],
                 machine.get("description", ""),
                 machine.get("manual_filename"),
+                machine.get("supplier_vendor", ""),
+                machine.get("contact_person", ""),
+                machine.get("contact_info", ""),
+                machine.get("purchase_date", ""),
+                machine.get("installation_date", ""),
+                machine.get("last_service_date", ""),
+                machine.get("next_service_date", ""),
+                machine.get("setup_notes", ""),
+                machine.get("troubleshooting_notes", ""),
+                json.dumps(machine.get("custom_fields", [])),
                 machine_id,
             ),
         )
@@ -107,7 +179,7 @@ def get_all_machines(db_path: Path) -> List[Dict[str, Any]]:
         rows = connection.execute(
             "SELECT * FROM machines ORDER BY machine_name ASC"
         ).fetchall()
-    return [dict(row) for row in rows]
+    return [_decode_machine(dict(row)) for row in rows]
 
 
 def get_machine_by_id(db_path: Path, machine_id: str) -> Optional[Dict[str, Any]]:
@@ -119,4 +191,12 @@ def get_machine_by_id(db_path: Path, machine_id: str) -> Optional[Dict[str, Any]
             "SELECT * FROM machines WHERE machine_id = ?",
             (machine_id,),
         ).fetchone()
-    return dict(row) if row else None
+    return _decode_machine(dict(row)) if row else None
+
+
+def _decode_machine(machine: Dict[str, Any]) -> Dict[str, Any]:
+    try:
+        machine["custom_fields"] = json.loads(machine.get("custom_fields") or "[]")
+    except (TypeError, json.JSONDecodeError):
+        machine["custom_fields"] = []
+    return machine
