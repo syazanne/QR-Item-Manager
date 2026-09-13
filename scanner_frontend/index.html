@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR camera preview</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="html5-qrcode.min.js"></script>
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <main id="scanner">
+    <div id="camera-choice" hidden>
+      <label for="camera">Camera</label>
+      <select id="camera" aria-label="Choose camera"></select>
+    </div>
+    <div id="preview" aria-label="Live camera preview">
+      <div id="qr-reader"></div>
+      <span id="scan-guide" aria-hidden="true"></span>
+      <div id="placeholder"><span id="placeholder-text">Starting camera…</span></div>
+    </div>
+    <p id="status" role="status" aria-live="polite">Allow camera access when your browser asks.</p>
+    <button id="resume" type="button" hidden>Show camera</button>
+    <button id="retry" type="button" hidden>Try again</button>
+  </main>
+</body>
+</html>

@@ -7,8 +7,14 @@ __pycache__/
 .mypy_cache/
 
 # Local application data
+_reset_backup/
 data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
 data/manual_text/
+data/scanner_component/
+data/backups/
 manuals/*
 !manuals/.gitkeep
 qr_codes/*

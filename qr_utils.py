@@ -1,18 +1,19 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 
 import qrcode
 
 
-def generate_qr_code(machine_id: str, output_dir: Path) -> str:
-    """Generate a QR code that stores only the equipment ID and save it locally."""
-    clean_machine_id = (machine_id or "").strip()
-    if not clean_machine_id:
-        raise ValueError("Machine ID is required to generate a QR code.")
+def generate_qr_code(record_id: str, output_dir: Path) -> str:
+    """Save a QR containing only the permanent Record ID, never a URL or values."""
+    clean_record_id = (record_id or "").strip()
+    if not re.fullmatch(r"REC-[0-9]{4,}", clean_record_id):
+        raise ValueError("A valid Record ID is required to generate a QR code.")
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    filename = f"{clean_machine_id}.png"
+    filename = f"{clean_record_id}.png"
     target_path = output_dir / filename
 
     qr = qrcode.QRCode(
@@ -21,7 +22,7 @@ def generate_qr_code(machine_id: str, output_dir: Path) -> str:
         box_size=10,
         border=4,
     )
-    qr.add_data(clean_machine_id)
+    qr.add_data(clean_record_id)
     qr.make(fit=True)
 
     image = qr.make_image(fill_color="black", back_color="white")

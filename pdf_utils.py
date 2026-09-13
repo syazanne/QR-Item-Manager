@@ -1,3 +1,7 @@
+"""Reference only: PDF/manual helpers from the earlier prototype.
+
+The current app does not import this module. See docs/REFERENCE.md.
+"""
 from __future__ import annotations
 
 import re
@@ -6,7 +10,7 @@ from typing import List
 
 
 def extract_pdf_text(pdf_path: Path) -> str:
-    """Extract text from a PDF file using PyMuPDF or pypdf as a fallback."""
+    """Extract PDF text with pypdf, or optional PyMuPDF when pypdf is absent."""
     if not pdf_path.exists():
         raise FileNotFoundError(f"PDF file not found: {pdf_path}")
 
