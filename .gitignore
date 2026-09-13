@@ -1,0 +1,24 @@
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Local application data
+data/*.db
+data/manual_text/
+manuals/*
+!manuals/.gitkeep
+qr_codes/*
+!qr_codes/.gitkeep
+
+# Local/editor files
+.DS_Store
+.streamlit/secrets.toml
+*.log
+
+# Private/local spreadsheets and temporary office files
+*.xlsx
+~$*.xlsx
