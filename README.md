@@ -42,6 +42,25 @@ flowchart LR
 - Per-field saving, unsaved-change prompts, and last-updated timestamps.
 - Backup ZIP downloads and validated restore with an automatic safety copy.
 
+## What you need
+
+| Requirement | What it is for |
+| --- | --- |
+| **Python 3** | Runs the app. Step 3 below explains how to check or install it. |
+| **A terminal** | Runs the setup commands. Use your computer's Terminal app or the terminal inside VS Code. |
+| **A browser** | Displays the app. Chrome and Brave have been used during development. |
+| **Internet access for setup** | Downloads the project and its Python packages. |
+| **A camera, if you want to scan QR labels** | A built-in webcam or connected camera works. You can still browse and edit records without scanning. |
+
+**VS Code and Git are optional.** Download ZIP works without Git, and you do not
+need a code editor just to run the app. A printer is only needed for paper labels.
+No separate database server, user account inside the app, or API key is required.
+
+You do **not** need to download Streamlit or the other Python packages manually.
+After Python is installed, the command in **step 5** installs everything listed
+in [requirements.txt](requirements.txt): Streamlit, qrcode, Pillow, pypdf, and
+streamlit-qrcode-scanner.
+
 ## Run locally
 
 Follow these steps on **macOS/Linux**. Downloading the ZIP gives you the code;
@@ -67,8 +86,26 @@ you then run it on your computer and use it in your browser.
    python3 --version
    ```
 
-   You should see a Python version number. If the command is not found, install
-   Python 3 and reopen the terminal before continuing.
+   You should see a Python 3 version number. If Python is already installed,
+   continue to step 4. If the command is not found:
+
+   - **macOS:** download a Python 3 installer from the
+     [official Python website](https://www.python.org/downloads/macos/), open it,
+     and follow the installation steps.
+   - **Linux:** install Python 3 using your distribution's package manager. See
+     the [official Python Linux guidance](https://docs.python.org/3/using/unix.html#on-linux).
+     Make sure your installation includes pip and the venv module for the next steps.
+
+   **macOS terminal alternative:** if you already have
+   [Homebrew](https://formulae.brew.sh/formula/python@3.14) installed, you can run:
+
+   ```bash
+   brew install python
+   ```
+
+   Use one installation method, then reopen the terminal in the project folder
+   and run `python3 --version` again. Install Python before trying any `pip` or
+   `streamlit` command.
 
 4. **Create and activate the project's Python environment.**
 
@@ -85,7 +122,9 @@ you then run it on your computer and use it in your browser.
    python -m pip install -r requirements.txt
    ```
 
-   Wait for installation to finish successfully before continuing.
+   This downloads and installs all the app's Python packages into the environment
+   from step 4. You do not need to install them one by one. Wait for installation
+   to finish successfully before continuing.
 
 6. **Start the app.**
 
