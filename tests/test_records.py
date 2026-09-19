@@ -526,6 +526,37 @@ class AppTests(unittest.TestCase):
         self.assertTrue(any(button.label == 'Add' for button in self.app.button))
         self.assert_clean()
 
+    def test_library_scan_next_clears_route_and_opens_next_record_without_edits(self):
+        first = db.create_record(self.path)
+        second = db.create_record(self.path)
+        for record_id in [first, second]:
+            db.save_record_value(self.path, record_id, self.field_ids[0], record_id)
+            filename = generate_qr_code(record_id, self.root / 'qr_codes')
+            db.save_record_qr(self.path, record_id, filename)
+        before = db.get_records(self.path)
+        self.app.query_params['view_record'] = first
+        self.app.run()
+        with patch('scanner.qrcode_scanner', return_value=None) as scanner:
+            self.app.button(key='library_scan_next').click().run()
+            self.assert_clean()
+            self.assertEqual(self.app.session_state['current_page'], 'Home')
+            self.assertTrue(self.app.session_state['scanner_active'])
+            self.assertFalse(self.app.query_params)
+            self.assertEqual(scanner.call_count, 1)
+            self.assertTrue(self.app.button(key='home_scan_stop'))
+            scanner.return_value = second
+            self.app.run()
+            self.assert_clean()
+            self.assertEqual(self.app.session_state['current_page'], 'Library Record')
+            self.assertEqual(self.app.session_state['selected_record_id'], second)
+            self.assertFalse(self.app.session_state['scanner_active'])
+            self.assertEqual(db.get_records(self.path), before)
+            scanner.return_value = None
+            self.app.button(key='library_scan_next').click().run()
+            self.app.button(key='home_scan_stop').click().run()
+            self.assertFalse(self.app.session_state['scanner_active'])
+            self.assertTrue(self.app.button(key='home_scan_start'))
+
     def test_library_manage_opens_same_record_and_keeps_edit_route_after_save(self):
         record_id = db.create_record(self.path)
         field_id = self.field_ids[0]

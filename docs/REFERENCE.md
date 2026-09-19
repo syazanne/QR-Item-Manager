@@ -8,6 +8,7 @@ they are not additional pages or features users need to configure.
 | `pdf_utils.py` | Standalone PDF text extraction and manual-search helpers from the earlier prototype. The current app does not import it. |
 | `manuals/` and `data/manual_text/` | Earlier local manual assets. Their contents are ignored by Git and unused by the current interface. |
 | `_reset_backup/` | Earlier local recovery copies. The folder is ignored by Git. Do not remove it as part of code cleanup. |
+| `data/scanner_component/` | Legacy generated scanner path, still ignored by Git. Its local contents were archived and removed; the jsQR component serves `data/scanner_component_jsqr/`. |
 | Database migration code | Imports older equipment records and upgrades field settings while preserving saved data and IDs. |
 | Legacy database tables | Earlier import sources remain in the local database. Active record backups do not export them. |
 | Old QR image files | Clearing a QR reference or deleting a record does not delete every old image. The database reference determines which QR is active. |
@@ -20,5 +21,5 @@ It had no application logic or callers.
 
 All dependencies in `requirements.txt` support the current app. In particular,
 `pypdf` is required for printable QR-label PDFs, even though the separate
-`pdf_utils.py` helper is reference-only. PyMuPDF is an optional fallback in that
-helper, not an app dependency.
+`pdf_utils.py` helper is reference-only. The helper also uses pypdf; its earlier
+optional PyMuPDF fallback was removed in the jsQR migration branch.

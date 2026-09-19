@@ -10,25 +10,14 @@ from typing import List
 
 
 def extract_pdf_text(pdf_path: Path) -> str:
-    """Extract PDF text with pypdf, or optional PyMuPDF when pypdf is absent."""
+    """Extract PDF text with the app's existing pypdf dependency."""
     if not pdf_path.exists():
         raise FileNotFoundError(f"PDF file not found: {pdf_path}")
 
     try:
         from pypdf import PdfReader
-    except ImportError:
-        try:
-            import fitz
-        except ImportError as exc:
-            raise ImportError(
-                "Please install either pypdf or PyMuPDF to extract PDF text."
-            ) from exc
-        else:
-            document = fitz.open(str(pdf_path))
-            pages = []
-            for page in document:
-                pages.append(page.get_text())
-            return "\n".join(pages)
+    except ImportError as exc:
+        raise ImportError("Please install pypdf to extract PDF text.") from exc
 
     reader = PdfReader(str(pdf_path))
     text_chunks = []

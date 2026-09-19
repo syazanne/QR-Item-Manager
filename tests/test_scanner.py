@@ -1,4 +1,6 @@
 import ctypes
+import hashlib
+import json
 import shutil
 import sys
 import tempfile
@@ -7,6 +9,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 import scanner
+from qr_utils import generate_qr_code
+from PIL import Image, ImageFilter, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -21,12 +25,20 @@ class ScannerBundleTests(unittest.TestCase):
                 self.assertEqual(scanner.qrcode_scanner(key='camera_test'), 'REC-0008')
                 self.assertTrue(declare.return_value.call_args.kwargs['key'].startswith('camera_test_'))
                 self.assertIsNone(declare.return_value.call_args.kwargs['default'])
-                bundle = root / 'data' / 'scanner_component'
-                self.assertTrue((bundle / 'html5-qrcode.min.js').is_file())
-                self.assertIn('qr-reader', (bundle / 'index.html').read_text())
+                bundle = root / 'data' / 'scanner_component_jsqr'
+                self.assertTrue((bundle / 'vendor' / 'jsQR.js').is_file())
+                self.assertTrue((bundle / 'vendor' / 'LICENSE.jsQR.txt').is_file())
+                self.assertTrue((bundle / 'vendor' / 'NOTICES.txt').is_file())
+                self.assertFalse((bundle / 'html5-qrcode.min.js').exists())
+                self.assertIn('camera-video', (bundle / 'index.html').read_text())
                 self.assertIn('aspect-ratio: 1', (bundle / 'style.css').read_text())
                 self.assertIn('main.js?v=', (bundle / 'index.html').read_text())
-                declare.assert_called_once_with('qr_camera', path=str(bundle))
+                self.assertIn('vendor/jsQR.js?v=', (bundle / 'index.html').read_text())
+                declare.assert_called_once_with('qr_camera_jsqr', path=str(bundle))
+
+    def test_vendored_decoder_is_the_reviewed_unmodified_release(self):
+        digest = hashlib.sha256((ROOT / 'scanner_frontend/vendor/jsQR.js').read_bytes()).hexdigest()
+        self.assertEqual(digest, 'bc40c8a15196236b2314db0856f72ca0b49980cd5413b8c852a7349f5fee0859')
 
 
 @unittest.skipUnless(sys.platform == 'darwin', 'JavaScriptCore is available on macOS')
@@ -52,10 +64,13 @@ class ScannerCameraTests(unittest.TestCase):
         self.addCleanup(self.js.JSGlobalContextRelease, self.context)
         self.evaluate('''
             var messages = [], listeners = {}, starts = 0, stops = 0, tracksStopped = 0;
-            var mode = 'success', allowPlayback = false, decoded, finishStart, cameraIds = [], timers = new Map(), timerId = 0;
+            var mode = 'success', allowPlayback = false, finishStart, cameraIds = [], timers = new Map(), timerId = 0;
+            var nextResult = null, decodeCalls = 0, lastDraw, activeTrack;
             function setTimeout(fn) {timers.set(++timerId, fn); return timerId;}
             function clearTimeout(id) {timers.delete(id);}
-            function runTimers() {for (const fn of Array.from(timers.values())) fn();}
+            function runTimers() {for (const [id, fn] of Array.from(timers.entries())) {timers.delete(id); fn();}}
+            function decoded(text) {nextResult = {data: text}; runTimers();}
+            function jsQR() {decodeCalls++; const result = nextResult; nextResult = null; return result;}
             var elements = {};
             for (const id of ['scanner', 'preview', 'placeholder', 'placeholder-text', 'status', 'retry', 'resume', 'camera-choice', 'camera', 'scan-guide']) {
                 elements[id] = { hidden: false, textContent: '', style: {},
@@ -65,9 +80,29 @@ class ScannerCameraTests(unittest.TestCase):
             }
             var window = { parent: { postMessage: msg => messages.push(msg) }, isSecureContext: true,
                 addEventListener: (type, fn) => { listeners[type] = fn; } };
-            var navigator = { mediaDevices: {getUserMedia: () => {}} };
+            var navigator = { userAgent: '', mediaDevices: {
+                getUserMedia: async constraints => {
+                    starts++;
+                    assert(constraints.audio === false, 'Microphone requested');
+                    const id = constraints.video.deviceId?.exact || 'front';
+                    cameraIds.push(id);
+                    if (mode === 'denied') throw {name: 'NotAllowedError'};
+                    if (mode === 'pending') await new Promise(resolve => {finishStart = resolve;});
+                    let stopped = false;
+                    const track = {getSettings: () => ({deviceId: id}),
+                        addEventListener: (name, fn) => {track[name] = fn;},
+                        stop: () => {if (!stopped) {stopped = true; stops++; tracksStopped++;}}};
+                    activeTrack = track;
+                    return {getTracks: () => [track], getVideoTracks: () => [track]};
+                },
+                enumerateDevices: async () => {
+                    if (mode === 'no-enumeration') throw new Error('Unavailable');
+                    return [{kind: 'videoinput', deviceId: 'front', label: 'Built-in camera'},
+                        {kind: 'videoinput', deviceId: 'rear', label: 'External camera'}];
+                }
+            } };
             var video = {readyState: 4, videoWidth: 640, videoHeight: 480, paused: true,
-                srcObject: {getTracks: () => [{stop: () => { tracksStopped++; }}]},
+                srcObject: null, pause: () => {video.paused = true;},
                 setAttribute: () => {}, addEventListener: () => {}, removeEventListener: () => {},
                 play: async () => {
                     if (mode === 'autoplay-blocked' && !allowPlayback) {
@@ -79,22 +114,14 @@ class ScannerCameraTests(unittest.TestCase):
                     if (mode === 'no-frames') {video.readyState = 0; video.videoWidth = 0;}
                 }
             };
+            elements['camera-video'] = video;
+            var canvas = {width: 0, height: 0, getContext: () => ({
+                drawImage: (...args) => {lastDraw = args;},
+                getImageData: () => ({data: new Uint8ClampedArray(4)})
+            })};
             var document = { body: {style: {}}, getElementById: id => elements[id],
-                createElement: () => ({}), querySelector: () => video, querySelectorAll: () => [video] };
+                createElement: tag => tag === 'canvas' ? canvas : {}, querySelector: () => video, querySelectorAll: () => [video] };
             var ResizeObserver = class { constructor(fn) {this.fn = fn;} observe() {this.fn();} };
-            var Html5Qrcode = class {
-                static async getCameras() {
-                    return [{id: 'front', label: 'Built-in camera'}, {id: 'rear', label: 'External camera'}];
-                }
-                async start(camera, config, success) {
-                    starts++; decoded = success; cameraIds.push(camera);
-                    const box = config.qrbox(400, 300);
-                    if (box.width !== box.height || box.width > 300) throw new Error('QR guide is not square');
-                    if (mode === 'denied') throw {name: 'NotAllowedError'};
-                    if (mode === 'pending') await new Promise(resolve => {finishStart = resolve;});
-                }
-                async stop() {stops++;}
-            };
             function render() {listeners.message({source: window.parent, data: {type: 'streamlit:render'}});}
             function assert(condition, message) {if (!condition) throw new Error(message);}
         ''')
@@ -212,3 +239,48 @@ class ScannerCameraTests(unittest.TestCase):
             assert(stops === 1 && starts === 2 && cameraIds[1] === 'rear', 'Camera switch failed');
             assert(elements.placeholder.hidden && elements.resume.hidden, 'Switched preview missing');
         """)
+
+    def test_default_camera_works_when_enumeration_is_unavailable(self):
+        self.evaluate("mode = 'no-enumeration'; render();")
+        self.evaluate("assert(elements.placeholder.hidden && decodeCalls > 0, 'Default camera cannot scan');")
+
+    def test_decoder_missing_does_not_request_camera(self):
+        self.evaluate("jsQR = undefined; render();")
+        self.evaluate("assert(starts === 0 && !elements.retry.hidden, 'Missing decoder requested camera');")
+
+    def test_decoding_uses_square_guide_and_stops_after_result(self):
+        self.evaluate('render();')
+        self.evaluate("""
+            assert(lastDraw[3] === lastDraw[4] && lastDraw[3] === 480 * .68, 'Wrong source crop');
+            assert(lastDraw[1] === (640 - 480 * .68) / 2, 'Off-centre crop');
+            decoded('REC-10000');
+        """)
+        self.evaluate("""
+            const previous = decodeCalls;
+            decoded('REC-10000');
+            assert(decodeCalls === previous, 'Decoder continued after scan');
+            assert(messages.filter(m => m.value === 'REC-10000').length === 1, 'Duplicate result');
+            assert(video.srcObject === null, 'Video still owns stream');
+        """)
+
+    def test_unplugged_camera_releases_stream_and_offers_retry(self):
+        self.evaluate('render();')
+        self.evaluate('activeTrack.ended();')
+        self.evaluate("assert(stops === 1 && !elements.retry.hidden, 'Unplugged camera has no recovery');")
+
+    def test_real_decoder_reads_existing_record_qr_labels(self):
+        self.evaluate((ROOT / 'scanner_frontend/vendor/jsQR.js').read_text())
+        with tempfile.TemporaryDirectory() as folder:
+            for record_id in ['REC-0008', 'REC-10000']:
+                filename = generate_qr_code(record_id, Path(folder))
+                with Image.open(Path(folder) / filename) as image:
+                    base = image.convert('RGB')
+                variants = [base, base.rotate(90), ImageOps.invert(base), base.filter(ImageFilter.GaussianBlur(.6))]
+                for index, image in enumerate(variants):
+                    with self.subTest(record_id=record_id, variant=index):
+                        pixels = list(image.convert('RGBA').tobytes())
+                        self.evaluate(f"""
+                            var result = jsQR(new Uint8ClampedArray({json.dumps(pixels)}), {image.width}, {image.height});
+                            assert(result && result.data === {json.dumps(record_id)}, 'Real decoder failed label');
+                        """)
+        self.evaluate("assert(jsQR(new Uint8ClampedArray(100 * 100 * 4).fill(255), 100, 100) === null, 'Blank image false positive');")

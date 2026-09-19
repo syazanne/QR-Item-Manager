@@ -9,10 +9,12 @@
   const resume = document.getElementById("resume");
   const cameraChoice = document.getElementById("camera-choice");
   const cameraSelect = document.getElementById("camera");
-  const scanGuide = document.getElementById("scan-guide");
-  let cameras = [];
+  const video = document.getElementById("camera-video");
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d", { willReadFrequently: true });
   let cancelVideoWait;
-  let reader;
+  let stream;
+  let decodeTimer;
   let starting = false;
   let running = false;
   let disposed = false;
@@ -27,17 +29,16 @@
     send("streamlit:setFrameHeight", { height: Math.ceil(root.getBoundingClientRect().height) + 2 });
   }
   function stopTracks() {
-    document.querySelectorAll("video").forEach(video => {
-      if (video.srcObject) video.srcObject.getTracks().forEach(track => track.stop());
-    });
+    if (stream) stream.getTracks().forEach(track => track.stop());
+    stream = null;
+    video.pause();
+    video.srcObject = null;
   }
   async function stopCamera() {
+    running = false;
+    clearTimeout(decodeTimer);
     resume.hidden = true;
     if (cancelVideoWait) cancelVideoWait();
-    if (reader && running) {
-      try { await reader.stop(); } catch (_) { /* Also release tracks below. */ }
-    }
-    running = false;
     stopTracks();
   }
   function cameraError(error) {
@@ -54,6 +55,7 @@
     video.setAttribute("playsinline", "");
     video.setAttribute("muted", "");
     return new Promise((resolve, reject) => {
+      let settled = false;
       function cleanup() {
         clearTimeout(timer);
         video.removeEventListener("loadeddata", check);
@@ -62,9 +64,15 @@
         cancelVideoWait = null;
       }
       function check() {
-        if (!video.paused && video.readyState >= 2 && video.videoWidth > 0 && video.videoHeight > 0) { cleanup(); resolve(); }
+        if (settled) return;
+        if (!video.paused && video.readyState >= 2 && video.videoWidth > 0 && video.videoHeight > 0) {
+          settled = true;
+          cleanup(); resolve();
+        }
       }
       function failed(error) {
+        if (settled) return;
+        settled = true;
         cleanup();
         // Camera permission and permission to play its video are separate.
         reject(new Error(error?.name === "NotAllowedError" ? "PlaybackBlocked" : "NoPreview"));
@@ -83,6 +91,28 @@
     placeholder.hidden = true;
     resume.hidden = true;
     status.textContent = "Place the QR inside the square and hold it steady.";
+    scanFrame();
+  }
+  function scanFrame() {
+    clearTimeout(decodeTimer);
+    if (!running || disposed || found) return;
+    if (!video.paused && video.readyState >= 2 && video.videoWidth && video.videoHeight) {
+      try {
+        // Match the centre guide in the square, object-fit: cover preview.
+        const side = Math.min(video.videoWidth, video.videoHeight) * 0.68;
+        const size = Math.max(1, Math.min(640, Math.floor(side)));
+        if (canvas.width !== size) canvas.width = canvas.height = size;
+        context.drawImage(video, (video.videoWidth - side) / 2, (video.videoHeight - side) / 2,
+          side, side, 0, 0, size, size);
+        const pixels = context.getImageData(0, 0, size, size);
+        const result = jsQR(pixels.data, size, size, { inversionAttempts: "attemptBoth" });
+        if (result && result.data) { onDecoded(result.data); return; }
+      } catch (_) {
+        previewFailed(new Error("DecoderUnavailable"));
+        return;
+      }
+    }
+    decodeTimer = setTimeout(scanFrame, 100);
   }
   async function previewFailed(error) {
     if (disposed || found) return;
@@ -100,25 +130,30 @@
     placeholder.hidden = false;
     placeholderText.textContent = "Camera unavailable";
     status.textContent = /HTTPS/.test(String(error)) ? "Camera access needs HTTPS or localhost. Use Library to find your record."
+      : /DecoderUnavailable/.test(String(error)) ? "The QR reader could not start. Reload the page or use Library to find your record."
       : /NoPreview/.test(String(error)) ? "The camera opened but no video arrived. Try another camera or check its privacy cover."
       : cameraError(error);
     retry.textContent = "Try again";
     retry.hidden = false;
   }
   async function listCameras() {
-    if (cameras.length) return;
-    cameras = await Html5Qrcode.getCameras();
-    if (!cameras.length) throw new Error("NotFoundError");
+    // Enumerate after permission so browsers can provide labels and device IDs.
+    // A working default camera remains usable if enumeration is unsupported.
+    let devices;
+    try { devices = await navigator.mediaDevices.enumerateDevices(); } catch (_) { return; }
+    if (disposed || !running) return;
+    const cameras = devices.filter(device => device.kind === "videoinput" && device.deviceId);
+    if (!cameras.length) return;
+    const currentId = stream.getVideoTracks()[0]?.getSettings().deviceId;
+    const selected = currentId || cameraSelect.value || cameras[0].deviceId;
     cameraSelect.replaceChildren();
     cameras.forEach((camera, index) => {
       const option = document.createElement("option");
-      option.value = camera.id;
+      option.value = camera.deviceId;
       option.textContent = camera.label || `Camera ${index + 1}`;
       cameraSelect.appendChild(option);
     });
-    const mobile = /Android|iPhone|iPad/i.test(navigator.userAgent || "");
-    const preferred = mobile ? cameras.find(camera => /back|rear|environment/i.test(camera.label)) : null;
-    cameraSelect.value = (preferred || cameras[0]).id;
+    cameraSelect.value = selected;
     cameraChoice.hidden = false;
   }
   async function onDecoded(text) {
@@ -149,27 +184,23 @@
       if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) {
         throw new Error("Camera requires HTTPS or localhost.");
       }
-      await listCameras();
-      if (disposed) return;
-      if (!reader) reader = new Html5Qrcode("qr-reader");
-      await reader.start(
-        cameraSelect.value,
-        {
-          fps: 10,
-          qrbox: (width, height) => {
-            const side = Math.max(50, Math.floor(Math.min(width, height) * 0.68));
-            scanGuide.style.width = `${side}px`;
-            scanGuide.style.height = `${side}px`;
-            return { width: side, height: side };
-          }
-        },
-        onDecoded,
-        () => {} // A frame without a QR is normal while positioning it.
-      );
+      if (typeof jsQR !== "function" || !context) throw new Error("DecoderUnavailable");
+      const mobile = /Android|iPhone|iPad/i.test(navigator.userAgent || "");
+      const constraints = cameraSelect.value
+        ? { deviceId: { exact: cameraSelect.value } }
+        : { facingMode: { ideal: mobile ? "environment" : "user" } };
+      const acquired = await navigator.mediaDevices.getUserMedia({ video: constraints, audio: false });
+      if (disposed) { acquired.getTracks().forEach(track => track.stop()); return; }
+      stream = acquired;
+      video.srcObject = stream;
       running = true;
+      stream.getVideoTracks().forEach(track => track.addEventListener("ended", () => {
+        if (running && !disposed && !found) previewFailed(new Error("NotReadableError"));
+      }));
+      await listCameras();
       if (disposed || found) { await stopCamera(); return; }
       status.textContent = "Waiting for the camera preview…";
-      await waitForVideo(document.querySelector("#qr-reader video"));
+      await waitForVideo(video);
       if (disposed || found) { await stopCamera(); return; }
       previewReady();
     } catch (error) {
@@ -187,7 +218,7 @@
     cameraSelect.disabled = true;
     status.textContent = "Starting camera preview…";
     try {
-      await waitForVideo(document.querySelector("#qr-reader video"));
+      await waitForVideo(video);
       if (!disposed && !found) previewReady();
     } catch (error) {
       await previewFailed(error);
@@ -218,7 +249,6 @@
   });
   window.addEventListener("pagehide", () => {
     disposed = true;
-    stopTracks();
     stopCamera();
   });
   new ResizeObserver(resizeFrame).observe(root);

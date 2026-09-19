@@ -1,0 +1,983 @@
+{
+  "review_date": "2026-09-19",
+  "scope": "Installed default Python runtime dependency graph; license/notice copies, not dependency source or binaries. Optional extras and other platforms are not resolved here.",
+  "python": "3.9.6",
+  "system": "Darwin",
+  "machine": "arm64",
+  "requirements_sha256": "e3ee843bd6571a92289f2eef28c34628c175ea3af4ea836d0b504fb39a34b395",
+  "packages": [
+    {
+      "name": "altair",
+      "version": "5.5.0",
+      "direct": false,
+      "license_summary": "BSD-3-Clause",
+      "distribution": "https://pypi.org/project/altair/5.5.0/",
+      "requires_dist": [
+        "jinja2",
+        "jsonschema>=3.0",
+        "narwhals>=1.14.2",
+        "packaging",
+        "typing-extensions>=4.10.0; python_version < '3.14'",
+        "altair-tiles>=0.3.0; extra == 'all'",
+        "anywidget>=0.9.0; extra == 'all'",
+        "numpy; extra == 'all'",
+        "pandas>=1.1.3; extra == 'all'",
+        "pyarrow>=11; extra == 'all'",
+        "vega-datasets>=0.9.0; extra == 'all'",
+        "vegafusion[embed]>=1.6.6; extra == 'all'",
+        "vl-convert-python>=1.7.0; extra == 'all'",
+        "duckdb>=1.0; extra == 'dev'",
+        "geopandas; extra == 'dev'",
+        "hatch>=1.13.0; extra == 'dev'",
+        "ipython[kernel]; extra == 'dev'",
+        "mistune; extra == 'dev'",
+        "mypy; extra == 'dev'",
+        "pandas-stubs; extra == 'dev'",
+        "pandas>=1.1.3; extra == 'dev'",
+        "polars>=0.20.3; extra == 'dev'",
+        "pyarrow-stubs; extra == 'dev'",
+        "pytest; extra == 'dev'",
+        "pytest-cov; extra == 'dev'",
+        "pytest-xdist[psutil]~=3.5; extra == 'dev'",
+        "ruff>=0.6.0; extra == 'dev'",
+        "types-jsonschema; extra == 'dev'",
+        "types-setuptools; extra == 'dev'",
+        "docutils; extra == 'doc'",
+        "jinja2; extra == 'doc'",
+        "myst-parser; extra == 'doc'",
+        "numpydoc; extra == 'doc'",
+        "pillow<10,>=9; extra == 'doc'",
+        "pydata-sphinx-theme>=0.14.1; extra == 'doc'",
+        "scipy; extra == 'doc'",
+        "sphinx; extra == 'doc'",
+        "sphinx-copybutton; extra == 'doc'",
+        "sphinx-design; extra == 'doc'",
+        "sphinxext-altair; extra == 'doc'",
+        "vl-convert-python>=1.7.0; extra == 'save'"
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/altair-5.5.0/altair-5.5.0.dist-info/licenses/LICENSE",
+          "source": "installed distribution: altair-5.5.0.dist-info/licenses/LICENSE",
+          "sha256": "14bf5abd0aa392f806fa0bbc88f51de36964d53071a687631e621807e556331e"
+        }
+      ]
+    },
+    {
+      "name": "attrs",
+      "version": "26.1.0",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/attrs/26.1.0/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/attrs-26.1.0/attrs-26.1.0.dist-info/licenses/LICENSE",
+          "source": "installed distribution: attrs-26.1.0.dist-info/licenses/LICENSE",
+          "sha256": "882115c95dfc2af1eeb6714f8ec6d5cbcabf667caff8729f42420da63f714e9f"
+        }
+      ]
+    },
+    {
+      "name": "blinker",
+      "version": "1.9.0",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/blinker/1.9.0/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/blinker-1.9.0/blinker-1.9.0.dist-info/LICENSE.txt",
+          "source": "installed distribution: blinker-1.9.0.dist-info/LICENSE.txt",
+          "sha256": "9eb73a1f38597a4aa17025d2ae1be3839624c795e985d4f0e9769ce29faca467"
+        }
+      ]
+    },
+    {
+      "name": "cachetools",
+      "version": "6.2.6",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/cachetools/6.2.6/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/cachetools-6.2.6/cachetools-6.2.6.dist-info/licenses/LICENSE",
+          "source": "installed distribution: cachetools-6.2.6.dist-info/licenses/LICENSE",
+          "sha256": "28c000b52b0ee27138a68ef778227e4057046e86b65f62f1cacb99b0cc49e0d2"
+        }
+      ]
+    },
+    {
+      "name": "certifi",
+      "version": "2026.7.22",
+      "direct": false,
+      "license_summary": "MPL-2.0",
+      "distribution": "https://pypi.org/project/certifi/2026.7.22/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/certifi-2026.7.22/certifi-2026.7.22.dist-info/licenses/LICENSE",
+          "source": "installed distribution: certifi-2026.7.22.dist-info/licenses/LICENSE",
+          "sha256": "e93716da6b9c0d5a4a1df60fe695b370f0695603d21f6f83f053e42cfc10caf7"
+        }
+      ]
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.5.1",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/charset-normalizer/3.5.1/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/charset-normalizer-3.5.1/charset_normalizer-3.5.1.dist-info/licenses/LICENSE",
+          "source": "installed distribution: charset_normalizer-3.5.1.dist-info/licenses/LICENSE",
+          "sha256": "6d0d41bfe170ac6c7dc248c9a63e254d0fb45a60d50a8257d0af92c6e249b887"
+        }
+      ]
+    },
+    {
+      "name": "click",
+      "version": "8.1.8",
+      "direct": false,
+      "license_summary": "BSD-3-Clause",
+      "distribution": "https://pypi.org/project/click/8.1.8/",
+      "requires_dist": [
+        "colorama; platform_system == 'Windows'",
+        "importlib-metadata; python_version < '3.8'"
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/click-8.1.8/click-8.1.8.dist-info/LICENSE.txt",
+          "source": "installed distribution: click-8.1.8.dist-info/LICENSE.txt",
+          "sha256": "9a8ad106a394e853bfe21f42f4e72d592819a22805d991b5f3275029292b658d"
+        }
+      ]
+    },
+    {
+      "name": "gitdb",
+      "version": "4.0.12",
+      "direct": false,
+      "license_summary": "BSD-3-Clause",
+      "distribution": "https://pypi.org/project/gitdb/4.0.12/",
+      "requires_dist": [
+        "smmap<6,>=3.0.1"
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/gitdb-4.0.12/gitdb-4.0.12.dist-info/LICENSE",
+          "source": "installed distribution: gitdb-4.0.12.dist-info/LICENSE",
+          "sha256": "efd29f596a08e8857e68e7694a50bcda72839792da7c3f041bcbff5f18009239"
+        }
+      ]
+    },
+    {
+      "name": "gitpython",
+      "version": "3.1.62",
+      "direct": false,
+      "license_summary": "BSD-3-Clause",
+      "distribution": "https://pypi.org/project/gitpython/3.1.62/",
+      "requires_dist": [
+        "gitdb<5,>=4.0.1",
+        "typing-extensions>=3.10.0.2; python_version < \"3.10\"",
+        "coverage[toml]; extra == \"test\"",
+        "basedpyright==1.39.9; (python_version >= \"3.9\" and sys_platform != \"cygwin\") and extra == \"test\"",
+        "ddt!=1.4.3,>=1.1.1; extra == \"test\"",
+        "mock; python_version < \"3.8\" and extra == \"test\"",
+        "mypy==1.18.2; python_version >= \"3.9\" and extra == \"test\"",
+        "pre-commit; extra == \"test\"",
+        "pytest>=7.3.1; extra == \"test\"",
+        "pytest-cov; extra == \"test\"",
+        "pytest-instafail; extra == \"test\"",
+        "pytest-mock; extra == \"test\"",
+        "pytest-sugar; extra == \"test\"",
+        "typing-extensions; python_version < \"3.11\" and extra == \"test\"",
+        "sphinx<8,>=7.4.7; extra == \"doc\"",
+        "sphinx_rtd_theme; extra == \"doc\"",
+        "sphinx-autodoc-typehints; extra == \"doc\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/gitpython-3.1.62/gitpython-3.1.62.dist-info/licenses/LICENSE",
+          "source": "installed distribution: gitpython-3.1.62.dist-info/licenses/LICENSE",
+          "sha256": "86fc94c321a9afbc11514713511bafded225f25100dcc0f7350e82bc231b8beb"
+        }
+      ]
+    },
+    {
+      "name": "idna",
+      "version": "3.19",
+      "direct": false,
+      "license_summary": "BSD-3-Clause",
+      "distribution": "https://pypi.org/project/idna/3.19/",
+      "requires_dist": [
+        "ruff >= 0.16.0 ; extra == \"all\"",
+        "mypy >= 1.11.2 ; extra == \"all\"",
+        "ty >= 0.0.37 ; extra == \"all\"",
+        "pytest >= 8.3.2 ; extra == \"all\"",
+        "hypothesis >= 6.141.1 ; extra == \"all\"",
+        "coverage >= 7.10.0 ; extra == \"all\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/idna-3.19/idna-3.19.dist-info/licenses/LICENSE.md",
+          "source": "installed distribution: idna-3.19.dist-info/licenses/LICENSE.md",
+          "sha256": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04"
+        }
+      ]
+    },
+    {
+      "name": "jinja2",
+      "version": "3.1.6",
+      "direct": false,
+      "license_summary": "BSD-3-Clause",
+      "distribution": "https://pypi.org/project/jinja2/3.1.6/",
+      "requires_dist": [
+        "MarkupSafe>=2.0",
+        "Babel>=2.7 ; extra == \"i18n\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/jinja2-3.1.6/jinja2-3.1.6.dist-info/licenses/LICENSE.txt",
+          "source": "installed distribution: jinja2-3.1.6.dist-info/licenses/LICENSE.txt",
+          "sha256": "3b49dcee4105eb37bac10faf1be260408fe85d252b8e9df2e0979fc1e094437b"
+        }
+      ]
+    },
+    {
+      "name": "jsonschema",
+      "version": "4.25.1",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/jsonschema/4.25.1/",
+      "requires_dist": [
+        "attrs>=22.2.0",
+        "jsonschema-specifications>=2023.03.6",
+        "referencing>=0.28.4",
+        "rpds-py>=0.7.1",
+        "fqdn; extra == 'format'",
+        "idna; extra == 'format'",
+        "isoduration; extra == 'format'",
+        "jsonpointer>1.13; extra == 'format'",
+        "rfc3339-validator; extra == 'format'",
+        "rfc3987; extra == 'format'",
+        "uri-template; extra == 'format'",
+        "webcolors>=1.11; extra == 'format'",
+        "fqdn; extra == 'format-nongpl'",
+        "idna; extra == 'format-nongpl'",
+        "isoduration; extra == 'format-nongpl'",
+        "jsonpointer>1.13; extra == 'format-nongpl'",
+        "rfc3339-validator; extra == 'format-nongpl'",
+        "rfc3986-validator>0.1.0; extra == 'format-nongpl'",
+        "rfc3987-syntax>=1.1.0; extra == 'format-nongpl'",
+        "uri-template; extra == 'format-nongpl'",
+        "webcolors>=24.6.0; extra == 'format-nongpl'"
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/jsonschema-4.25.1/jsonschema-4.25.1.dist-info/licenses/COPYING",
+          "source": "installed distribution: jsonschema-4.25.1.dist-info/licenses/COPYING",
+          "sha256": "4f92a015a13c4d1a040bef018aa13430b4f1bc73b41b16bb846c346766de7439"
+        }
+      ]
+    },
+    {
+      "name": "jsonschema-specifications",
+      "version": "2025.9.1",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/jsonschema-specifications/2025.9.1/",
+      "requires_dist": [
+        "referencing>=0.31.0"
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/jsonschema-specifications-2025.9.1/jsonschema_specifications-2025.9.1.dist-info/licenses/COPYING",
+          "source": "installed distribution: jsonschema_specifications-2025.9.1.dist-info/licenses/COPYING",
+          "sha256": "42dcd63495f87b4eb7c7757afa379bb55a53f94afd7a5f657d9adf57236e515c"
+        }
+      ]
+    },
+    {
+      "name": "markupsafe",
+      "version": "3.0.3",
+      "direct": false,
+      "license_summary": "BSD-3-Clause",
+      "distribution": "https://pypi.org/project/markupsafe/3.0.3/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/markupsafe-3.0.3/markupsafe-3.0.3.dist-info/licenses/LICENSE.txt",
+          "source": "installed distribution: markupsafe-3.0.3.dist-info/licenses/LICENSE.txt",
+          "sha256": "489a8e1108509ed98a37bb983e11e0f7e1d31f0bd8f99a79c8448e7ff37d07ea"
+        }
+      ]
+    },
+    {
+      "name": "narwhals",
+      "version": "2.21.0",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/narwhals/2.21.0/",
+      "requires_dist": [
+        "cudf-cu12>=24.10.0; extra == 'cudf'",
+        "dask[dataframe]>=2024.8; extra == 'dask'",
+        "duckdb>=1.1; extra == 'duckdb'",
+        "ibis-framework>=6.0.0; extra == 'ibis'",
+        "packaging; extra == 'ibis'",
+        "pyarrow-hotfix; extra == 'ibis'",
+        "rich; extra == 'ibis'",
+        "modin; extra == 'modin'",
+        "pandas>=1.1.3; extra == 'pandas'",
+        "polars>=0.20.4; extra == 'polars'",
+        "pyarrow>=13.0.0; extra == 'pyarrow'",
+        "pyspark>=3.5.0; extra == 'pyspark'",
+        "pyspark[connect]>=3.5.0; extra == 'pyspark-connect'",
+        "duckdb>=1.1; extra == 'sql'",
+        "sqlparse; extra == 'sql'",
+        "sqlframe!=3.39.3,>=3.22.0; extra == 'sqlframe'"
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/narwhals-2.21.0/narwhals-2.21.0.dist-info/licenses/LICENSE.md",
+          "source": "installed distribution: narwhals-2.21.0.dist-info/licenses/LICENSE.md",
+          "sha256": "811445f30147b8f0c9d444c9025fd528f9532c54b7b83f6e2368473dc91cfdf0"
+        }
+      ]
+    },
+    {
+      "name": "numpy",
+      "version": "2.0.2",
+      "direct": false,
+      "license_summary": "BSD-3-Clause; bundled component notices include GPL-3.0 with GCC Runtime Library Exception",
+      "distribution": "https://pypi.org/project/numpy/2.0.2/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/numpy-2.0.2/numpy-2.0.2.dist-info/LICENSE.txt",
+          "source": "installed distribution: numpy-2.0.2.dist-info/LICENSE.txt",
+          "sha256": "279d8a786f5c0011fa62f57d09c9b724bc2391e0d907836a316309c7a3eb6cc4"
+        },
+        {
+          "file": "docs/licenses/numpy-2.0.2/numpy/_core/include/numpy/random/LICENSE.txt",
+          "source": "installed distribution: numpy/_core/include/numpy/random/LICENSE.txt",
+          "sha256": "fbc539f47d0cf83bc61378080fb873d5c14630126cacbfe754035c3926daa5ec"
+        },
+        {
+          "file": "docs/licenses/numpy-2.0.2/numpy/ma/LICENSE",
+          "source": "installed distribution: numpy/ma/LICENSE",
+          "sha256": "05f3b88351988ecfad10abe92c0c50e5875c6452d5009a0084cc291551ffcca6"
+        },
+        {
+          "file": "docs/licenses/numpy-2.0.2/numpy/random/LICENSE.md",
+          "source": "installed distribution: numpy/random/LICENSE.md",
+          "sha256": "103166b62b80443afb9eb3488e052ea06be0cff566b908f199e561fde49af19f"
+        }
+      ]
+    },
+    {
+      "name": "packaging",
+      "version": "25.0",
+      "direct": false,
+      "license_summary": "Apache-2.0 OR BSD-2-Clause",
+      "distribution": "https://pypi.org/project/packaging/25.0/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/packaging-25.0/packaging-25.0.dist-info/licenses/LICENSE",
+          "source": "installed distribution: packaging-25.0.dist-info/licenses/LICENSE",
+          "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+        },
+        {
+          "file": "docs/licenses/packaging-25.0/packaging-25.0.dist-info/licenses/LICENSE.APACHE",
+          "source": "installed distribution: packaging-25.0.dist-info/licenses/LICENSE.APACHE",
+          "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+        },
+        {
+          "file": "docs/licenses/packaging-25.0/packaging-25.0.dist-info/licenses/LICENSE.BSD",
+          "source": "installed distribution: packaging-25.0.dist-info/licenses/LICENSE.BSD",
+          "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+        }
+      ]
+    },
+    {
+      "name": "pandas",
+      "version": "2.3.3",
+      "direct": false,
+      "license_summary": "BSD-3-Clause; bundled component notices",
+      "distribution": "https://pypi.org/project/pandas/2.3.3/",
+      "requires_dist": [
+        "numpy>=1.22.4; python_version < \"3.11\"",
+        "numpy>=1.23.2; python_version == \"3.11\"",
+        "numpy>=1.26.0; python_version >= \"3.12\"",
+        "python-dateutil>=2.8.2",
+        "pytz>=2020.1",
+        "tzdata>=2022.7",
+        "hypothesis>=6.46.1; extra == \"test\"",
+        "pytest>=7.3.2; extra == \"test\"",
+        "pytest-xdist>=2.2.0; extra == \"test\"",
+        "pyarrow>=10.0.1; extra == \"pyarrow\"",
+        "bottleneck>=1.3.6; extra == \"performance\"",
+        "numba>=0.56.4; extra == \"performance\"",
+        "numexpr>=2.8.4; extra == \"performance\"",
+        "scipy>=1.10.0; extra == \"computation\"",
+        "xarray>=2022.12.0; extra == \"computation\"",
+        "fsspec>=2022.11.0; extra == \"fss\"",
+        "s3fs>=2022.11.0; extra == \"aws\"",
+        "gcsfs>=2022.11.0; extra == \"gcp\"",
+        "pandas-gbq>=0.19.0; extra == \"gcp\"",
+        "odfpy>=1.4.1; extra == \"excel\"",
+        "openpyxl>=3.1.0; extra == \"excel\"",
+        "python-calamine>=0.1.7; extra == \"excel\"",
+        "pyxlsb>=1.0.10; extra == \"excel\"",
+        "xlrd>=2.0.1; extra == \"excel\"",
+        "xlsxwriter>=3.0.5; extra == \"excel\"",
+        "pyarrow>=10.0.1; extra == \"parquet\"",
+        "pyarrow>=10.0.1; extra == \"feather\"",
+        "tables>=3.8.0; extra == \"hdf5\"",
+        "pyreadstat>=1.2.0; extra == \"spss\"",
+        "SQLAlchemy>=2.0.0; extra == \"postgresql\"",
+        "psycopg2>=2.9.6; extra == \"postgresql\"",
+        "adbc-driver-postgresql>=0.8.0; extra == \"postgresql\"",
+        "SQLAlchemy>=2.0.0; extra == \"mysql\"",
+        "pymysql>=1.0.2; extra == \"mysql\"",
+        "SQLAlchemy>=2.0.0; extra == \"sql-other\"",
+        "adbc-driver-postgresql>=0.8.0; extra == \"sql-other\"",
+        "adbc-driver-sqlite>=0.8.0; extra == \"sql-other\"",
+        "beautifulsoup4>=4.11.2; extra == \"html\"",
+        "html5lib>=1.1; extra == \"html\"",
+        "lxml>=4.9.2; extra == \"html\"",
+        "lxml>=4.9.2; extra == \"xml\"",
+        "matplotlib>=3.6.3; extra == \"plot\"",
+        "jinja2>=3.1.2; extra == \"output-formatting\"",
+        "tabulate>=0.9.0; extra == \"output-formatting\"",
+        "PyQt5>=5.15.9; extra == \"clipboard\"",
+        "qtpy>=2.3.0; extra == \"clipboard\"",
+        "zstandard>=0.19.0; extra == \"compression\"",
+        "dataframe-api-compat>=0.1.7; extra == \"consortium-standard\"",
+        "adbc-driver-postgresql>=0.8.0; extra == \"all\"",
+        "adbc-driver-sqlite>=0.8.0; extra == \"all\"",
+        "beautifulsoup4>=4.11.2; extra == \"all\"",
+        "bottleneck>=1.3.6; extra == \"all\"",
+        "dataframe-api-compat>=0.1.7; extra == \"all\"",
+        "fastparquet>=2022.12.0; extra == \"all\"",
+        "fsspec>=2022.11.0; extra == \"all\"",
+        "gcsfs>=2022.11.0; extra == \"all\"",
+        "html5lib>=1.1; extra == \"all\"",
+        "hypothesis>=6.46.1; extra == \"all\"",
+        "jinja2>=3.1.2; extra == \"all\"",
+        "lxml>=4.9.2; extra == \"all\"",
+        "matplotlib>=3.6.3; extra == \"all\"",
+        "numba>=0.56.4; extra == \"all\"",
+        "numexpr>=2.8.4; extra == \"all\"",
+        "odfpy>=1.4.1; extra == \"all\"",
+        "openpyxl>=3.1.0; extra == \"all\"",
+        "pandas-gbq>=0.19.0; extra == \"all\"",
+        "psycopg2>=2.9.6; extra == \"all\"",
+        "pyarrow>=10.0.1; extra == \"all\"",
+        "pymysql>=1.0.2; extra == \"all\"",
+        "PyQt5>=5.15.9; extra == \"all\"",
+        "pyreadstat>=1.2.0; extra == \"all\"",
+        "pytest>=7.3.2; extra == \"all\"",
+        "pytest-xdist>=2.2.0; extra == \"all\"",
+        "python-calamine>=0.1.7; extra == \"all\"",
+        "pyxlsb>=1.0.10; extra == \"all\"",
+        "qtpy>=2.3.0; extra == \"all\"",
+        "scipy>=1.10.0; extra == \"all\"",
+        "s3fs>=2022.11.0; extra == \"all\"",
+        "SQLAlchemy>=2.0.0; extra == \"all\"",
+        "tables>=3.8.0; extra == \"all\"",
+        "tabulate>=0.9.0; extra == \"all\"",
+        "xarray>=2022.12.0; extra == \"all\"",
+        "xlrd>=2.0.1; extra == \"all\"",
+        "xlsxwriter>=3.0.5; extra == \"all\"",
+        "zstandard>=0.19.0; extra == \"all\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/pandas-2.3.3/pandas-2.3.3.dist-info/LICENSE",
+          "source": "installed distribution: pandas-2.3.3.dist-info/LICENSE",
+          "sha256": "1dea2e80ed1cbd0233f84cee4486b29689f133babaccf4d295e51c43051f3216"
+        }
+      ]
+    },
+    {
+      "name": "pillow",
+      "version": "11.3.0",
+      "direct": true,
+      "license_summary": "MIT-CMU; bundled component notices",
+      "distribution": "https://pypi.org/project/pillow/11.3.0/",
+      "requires_dist": [
+        "furo; extra == \"docs\"",
+        "olefile; extra == \"docs\"",
+        "sphinx>=8.2; extra == \"docs\"",
+        "sphinx-autobuild; extra == \"docs\"",
+        "sphinx-copybutton; extra == \"docs\"",
+        "sphinx-inline-tabs; extra == \"docs\"",
+        "sphinxext-opengraph; extra == \"docs\"",
+        "olefile; extra == \"fpx\"",
+        "olefile; extra == \"mic\"",
+        "pyarrow; extra == \"test-arrow\"",
+        "check-manifest; extra == \"tests\"",
+        "coverage>=7.4.2; extra == \"tests\"",
+        "defusedxml; extra == \"tests\"",
+        "markdown2; extra == \"tests\"",
+        "olefile; extra == \"tests\"",
+        "packaging; extra == \"tests\"",
+        "pyroma; extra == \"tests\"",
+        "pytest; extra == \"tests\"",
+        "pytest-cov; extra == \"tests\"",
+        "pytest-timeout; extra == \"tests\"",
+        "pytest-xdist; extra == \"tests\"",
+        "trove-classifiers>=2024.10.12; extra == \"tests\"",
+        "typing-extensions; python_version < \"3.10\" and extra == \"typing\"",
+        "defusedxml; extra == \"xmp\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/pillow-11.3.0/pillow-11.3.0.dist-info/licenses/LICENSE",
+          "source": "installed distribution: pillow-11.3.0.dist-info/licenses/LICENSE",
+          "sha256": "2c40a7d8894126ff7a993a752505b915694aafe7a620889ef368acbf54b87144"
+        }
+      ]
+    },
+    {
+      "name": "protobuf",
+      "version": "6.33.6",
+      "direct": false,
+      "license_summary": "BSD-3-Clause",
+      "distribution": "https://pypi.org/project/protobuf/6.33.6/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/protobuf-6.33.6/protobuf-6.33.6.dist-info/LICENSE",
+          "source": "installed distribution: protobuf-6.33.6.dist-info/LICENSE",
+          "sha256": "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d"
+        }
+      ]
+    },
+    {
+      "name": "pyarrow",
+      "version": "21.0.0",
+      "direct": false,
+      "license_summary": "Apache-2.0; bundled component notices",
+      "distribution": "https://pypi.org/project/pyarrow/21.0.0/",
+      "requires_dist": [
+        "pytest; extra == \"test\"",
+        "hypothesis; extra == \"test\"",
+        "cffi; extra == \"test\"",
+        "pytz; extra == \"test\"",
+        "pandas; extra == \"test\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/pyarrow-21.0.0/pyarrow-21.0.0.dist-info/licenses/LICENSE.txt",
+          "source": "installed distribution: pyarrow-21.0.0.dist-info/licenses/LICENSE.txt",
+          "sha256": "82f5f9b0e6592da7f79022fc930add132a76c56727d29813f94058157a2b2d11"
+        },
+        {
+          "file": "docs/licenses/pyarrow-21.0.0/pyarrow-21.0.0.dist-info/licenses/NOTICE.txt",
+          "source": "installed distribution: pyarrow-21.0.0.dist-info/licenses/NOTICE.txt",
+          "sha256": "c946470d6b024c77feebdfb686bf92a828402c0ffc27c769bca7d8bef08e1db7"
+        }
+      ]
+    },
+    {
+      "name": "pydeck",
+      "version": "0.9.3",
+      "direct": false,
+      "license_summary": "Apache-2.0",
+      "distribution": "https://pypi.org/project/pydeck/0.9.3/",
+      "requires_dist": [
+        "jinja2>=2.10.1",
+        "numpy>=1.16.4",
+        "pydeck-carto; extra == \"carto\"",
+        "ipywidgets<8,>=7; extra == \"jupyter\"",
+        "traitlets>=4.3.2; extra == \"jupyter\"",
+        "ipykernel>=5.1.2; extra == \"jupyter\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/pydeck-0.9.3/pydeck-0.9.3.dist-info/licenses/LICENSE.txt",
+          "source": "installed distribution: pydeck-0.9.3.dist-info/licenses/LICENSE.txt",
+          "sha256": "fa22bc5599b857a628e0757d4a95024f4c392aa2a4321053d61f34ce505d6d90"
+        }
+      ]
+    },
+    {
+      "name": "pypdf",
+      "version": "6.18.1",
+      "direct": true,
+      "license_summary": "BSD-3-Clause",
+      "distribution": "https://pypi.org/project/pypdf/6.18.1/",
+      "requires_dist": [
+        "typing_extensions >= 4.0; python_version < '3.11'",
+        "cryptography>3.0 ; extra == \"crypto\"",
+        "PyCryptodome ; extra == \"cryptodome\"",
+        "flit ; extra == \"dev\"",
+        "pip-tools ; extra == \"dev\"",
+        "pre-commit ; extra == \"dev\"",
+        "pytest-cov ; extra == \"dev\"",
+        "pytest-socket ; extra == \"dev\"",
+        "pytest-timeout ; extra == \"dev\"",
+        "pytest-xdist ; extra == \"dev\"",
+        "wheel ; extra == \"dev\"",
+        "myst_parser ; extra == \"docs\"",
+        "sphinx ; extra == \"docs\"",
+        "sphinx_rtd_theme ; extra == \"docs\"",
+        "fonttools ; extra == \"fonts\"",
+        "arabic-reshaper ; extra == \"full\"",
+        "cryptography>3.0 ; extra == \"full\"",
+        "fonttools ; extra == \"full\"",
+        "Pillow>=8.0.0 ; extra == \"full\"",
+        "python-bidi ; extra == \"full\"",
+        "Pillow>=8.0.0 ; extra == \"image\"",
+        "arabic-reshaper ; extra == \"rtl-text\"",
+        "python-bidi ; extra == \"rtl-text\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/pypdf-6.18.1/pypdf-6.18.1.dist-info/licenses/LICENSE",
+          "source": "installed distribution: pypdf-6.18.1.dist-info/licenses/LICENSE",
+          "sha256": "a97ac230e5f33ef10a5367a850eb01f91f1a0b064e34742c7794d2294557f524"
+        }
+      ]
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "direct": false,
+      "license_summary": "Apache-2.0 OR BSD-3-Clause",
+      "distribution": "https://pypi.org/project/python-dateutil/2.9.0.post0/",
+      "requires_dist": [
+        "six >=1.5"
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/python-dateutil-2.9.0.post0/python_dateutil-2.9.0.post0.dist-info/LICENSE",
+          "source": "installed distribution: python_dateutil-2.9.0.post0.dist-info/LICENSE",
+          "sha256": "ba00f51a0d92823b5a1cde27d8b5b9d2321e67ed8da9bc163eff96d5e17e577e"
+        }
+      ]
+    },
+    {
+      "name": "pytz",
+      "version": "2026.3.post1",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/pytz/2026.3.post1/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/pytz-2026.3.post1/pytz-2026.3.post1.dist-info/LICENSE.txt",
+          "source": "installed distribution: pytz-2026.3.post1.dist-info/LICENSE.txt",
+          "sha256": "be8b1a37ebe26c592a90f6c0eb33103a7f383ce2f4d7498c0af9a526990a07b8"
+        }
+      ]
+    },
+    {
+      "name": "qrcode",
+      "version": "8.2",
+      "direct": true,
+      "license_summary": "BSD-3-Clause; upstream MIT notice",
+      "distribution": "https://pypi.org/project/qrcode/8.2/",
+      "requires_dist": [
+        "colorama ; sys_platform == \"win32\"",
+        "pillow (>=9.1.0) ; extra == \"pil\" or extra == \"all\"",
+        "pypng ; extra == \"png\" or extra == \"all\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/qrcode-8.2/qrcode-8.2.dist-info/LICENSE",
+          "source": "installed distribution: qrcode-8.2.dist-info/LICENSE",
+          "sha256": "40dfb903c94ee3f789500131311186548ecba5cefd3557623d7700e2522ab994"
+        }
+      ]
+    },
+    {
+      "name": "referencing",
+      "version": "0.36.2",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/referencing/0.36.2/",
+      "requires_dist": [
+        "attrs>=22.2.0",
+        "rpds-py>=0.7.0",
+        "typing-extensions>=4.4.0; python_version < '3.13'"
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/referencing-0.36.2/referencing-0.36.2.dist-info/licenses/COPYING",
+          "source": "installed distribution: referencing-0.36.2.dist-info/licenses/COPYING",
+          "sha256": "42dcd63495f87b4eb7c7757afa379bb55a53f94afd7a5f657d9adf57236e515c"
+        }
+      ]
+    },
+    {
+      "name": "requests",
+      "version": "2.32.5",
+      "direct": false,
+      "license_summary": "Apache-2.0",
+      "distribution": "https://pypi.org/project/requests/2.32.5/",
+      "requires_dist": [
+        "charset_normalizer<4,>=2",
+        "idna<4,>=2.5",
+        "urllib3<3,>=1.21.1",
+        "certifi>=2017.4.17",
+        "PySocks!=1.5.7,>=1.5.6; extra == \"socks\"",
+        "chardet<6,>=3.0.2; extra == \"use-chardet-on-py3\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/requests-2.32.5/requests-2.32.5.dist-info/licenses/LICENSE",
+          "source": "installed distribution: requests-2.32.5.dist-info/licenses/LICENSE",
+          "sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b"
+        }
+      ]
+    },
+    {
+      "name": "rpds-py",
+      "version": "0.27.1",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/rpds-py/0.27.1/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/rpds-py-0.27.1/rpds_py-0.27.1.dist-info/licenses/LICENSE",
+          "source": "installed distribution: rpds_py-0.27.1.dist-info/licenses/LICENSE",
+          "sha256": "314e4e91be3baa93c0fb4bccc9e4e97cd643eb839b065af921782c2175fe9909"
+        }
+      ]
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/six/1.17.0/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/six-1.17.0/six-1.17.0.dist-info/LICENSE",
+          "source": "installed distribution: six-1.17.0.dist-info/LICENSE",
+          "sha256": "4375ba20e2b9c6c4e7cad2940a628fd90e95cc3d50ee92aae755715d8ba1fbd0"
+        }
+      ]
+    },
+    {
+      "name": "smmap",
+      "version": "5.0.3",
+      "direct": false,
+      "license_summary": "BSD-3-Clause",
+      "distribution": "https://pypi.org/project/smmap/5.0.3/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/smmap-5.0.3/smmap-5.0.3.dist-info/licenses/LICENSE",
+          "source": "installed distribution: smmap-5.0.3.dist-info/licenses/LICENSE",
+          "sha256": "88e9d93f708d110b328a834302dd1d5c6afbda530e7721d15d80b3511d86f235"
+        }
+      ]
+    },
+    {
+      "name": "streamlit",
+      "version": "1.50.0",
+      "direct": true,
+      "license_summary": "Apache-2.0; frontend and font notices",
+      "distribution": "https://pypi.org/project/streamlit/1.50.0/",
+      "requires_dist": [
+        "altair!=5.4.0,!=5.4.1,<6,>=4.0",
+        "blinker<2,>=1.5.0",
+        "cachetools<7,>=4.0",
+        "click<9,>=7.0",
+        "numpy<3,>=1.23",
+        "packaging<26,>=20",
+        "pandas<3,>=1.4.0",
+        "pillow<12,>=7.1.0",
+        "protobuf<7,>=3.20",
+        "pyarrow>=7.0",
+        "requests<3,>=2.27",
+        "tenacity<10,>=8.1.0",
+        "toml<2,>=0.10.1",
+        "typing-extensions<5,>=4.4.0",
+        "watchdog<7,>=2.1.5; platform_system != \"Darwin\"",
+        "gitpython!=3.1.19,<4,>=3.0.7",
+        "pydeck<1,>=0.8.0b4",
+        "tornado!=6.5.0,<7,>=6.0.3",
+        "snowflake-snowpark-python[modin]>=1.17.0; python_version < \"3.12\" and extra == \"snowflake\"",
+        "snowflake-connector-python>=3.3.0; python_version < \"3.12\" and extra == \"snowflake\"",
+        "streamlit-pdf>=1.0.0; extra == \"pdf\"",
+        "Authlib>=1.3.2; extra == \"auth\"",
+        "matplotlib>=3.0.0; extra == \"charts\"",
+        "graphviz>=0.19.0; extra == \"charts\"",
+        "plotly>=4.0.0; extra == \"charts\"",
+        "orjson>=3.5.0; extra == \"charts\"",
+        "SQLAlchemy>=2.0.0; extra == \"sql\"",
+        "streamlit[auth,charts,pdf,snowflake,sql]; extra == \"all\"",
+        "rich>=11.0.0; extra == \"all\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/streamlit-1.50.0/LICENSE",
+          "source": "https://raw.githubusercontent.com/streamlit/streamlit/1.50.0/LICENSE",
+          "sha256": "c95bae1d1ce0235ecccd3560b772ec1efb97f348a79f0fbe0a634f0c2ccefe2c"
+        },
+        {
+          "file": "docs/licenses/streamlit-1.50.0/NOTICES",
+          "source": "https://raw.githubusercontent.com/streamlit/streamlit/1.50.0/NOTICES",
+          "sha256": "31d328b51655388b4fef7f0db29d80489a5eacebb32aea4755bea77218fb8261"
+        },
+        {
+          "file": "docs/licenses/streamlit-1.50.0/frontend/app/src/assets/fonts/Source_Code/Source-Code.LICENSE",
+          "source": "https://raw.githubusercontent.com/streamlit/streamlit/1.50.0/frontend/app/src/assets/fonts/Source_Code/Source-Code.LICENSE",
+          "sha256": "0b2c3168605cb4f3ba54cf3cf2003f67ff894c66484c75702007f23eda92c353"
+        },
+        {
+          "file": "docs/licenses/streamlit-1.50.0/frontend/app/src/assets/fonts/Source_Sans/Source-Sans.LICENSE",
+          "source": "https://raw.githubusercontent.com/streamlit/streamlit/1.50.0/frontend/app/src/assets/fonts/Source_Sans/Source-Sans.LICENSE",
+          "sha256": "937d1985d2d6d003b6efdfa47e098b96c69d55395175f154d7f56410c942f978"
+        },
+        {
+          "file": "docs/licenses/streamlit-1.50.0/frontend/app/src/assets/fonts/Source_Serif/Source-Serif.LICENSE",
+          "source": "https://raw.githubusercontent.com/streamlit/streamlit/1.50.0/frontend/app/src/assets/fonts/Source_Serif/Source-Serif.LICENSE",
+          "sha256": "c21d7293d87b6d7ab1d0229a2f55b77f33a7613a6a4e66f6693d68d7d8d09464"
+        },
+        {
+          "file": "docs/licenses/streamlit-1.50.0/frontend/app/src/assets/img/Material-Icons.LICENSE",
+          "source": "https://raw.githubusercontent.com/streamlit/streamlit/1.50.0/frontend/app/src/assets/img/Material-Icons.LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+        },
+        {
+          "file": "docs/licenses/streamlit-1.50.0/frontend/app/src/assets/img/Open-Iconic.LICENSE",
+          "source": "https://raw.githubusercontent.com/streamlit/streamlit/1.50.0/frontend/app/src/assets/img/Open-Iconic.LICENSE",
+          "sha256": "29d4c03ea5ae62e216f61b04718540fd4c9960dfb6dff3e2f666ffc9591775ab"
+        },
+        {
+          "file": "docs/licenses/streamlit-1.50.0/frontend/lib/src/vendor/bokeh/bokeh-LICENSE.txt",
+          "source": "https://raw.githubusercontent.com/streamlit/streamlit/1.50.0/frontend/lib/src/vendor/bokeh/bokeh-LICENSE.txt",
+          "sha256": "55c21d226f8cfa9ace66d354f5749e1c07720ba9b4f9d6023d21d438f4b7a121"
+        },
+        {
+          "file": "docs/licenses/streamlit-1.50.0/frontend/lib/src/vendor/fzy.js/fzyjs-LICENSE.txt",
+          "source": "https://raw.githubusercontent.com/streamlit/streamlit/1.50.0/frontend/lib/src/vendor/fzy.js/fzyjs-LICENSE.txt",
+          "sha256": "4f13fd12e890f80db67d2cc489b5f982e7713434c2ed3987b7e6ad05211a79b2"
+        },
+        {
+          "file": "docs/licenses/streamlit-1.50.0/frontend/lib/src/vendor/react-bootstrap-LICENSE.txt",
+          "source": "https://raw.githubusercontent.com/streamlit/streamlit/1.50.0/frontend/lib/src/vendor/react-bootstrap-LICENSE.txt",
+          "sha256": "a803369620c2ac8331204b0425405f8df2e1b8e4724f3fbd834c98625153500c"
+        }
+      ]
+    },
+    {
+      "name": "tenacity",
+      "version": "9.1.2",
+      "direct": false,
+      "license_summary": "Apache-2.0",
+      "distribution": "https://pypi.org/project/tenacity/9.1.2/",
+      "requires_dist": [
+        "reno; extra == \"doc\"",
+        "sphinx; extra == \"doc\"",
+        "pytest; extra == \"test\"",
+        "tornado>=4.5; extra == \"test\"",
+        "typeguard; extra == \"test\""
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/tenacity-9.1.2/tenacity-9.1.2.dist-info/licenses/LICENSE",
+          "source": "installed distribution: tenacity-9.1.2.dist-info/licenses/LICENSE",
+          "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+        }
+      ]
+    },
+    {
+      "name": "toml",
+      "version": "0.10.2",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/toml/0.10.2/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/toml-0.10.2/toml-0.10.2.dist-info/LICENSE",
+          "source": "installed distribution: toml-0.10.2.dist-info/LICENSE",
+          "sha256": "2d9294823df6c89357c8be4927fce79361d6561e5ee7532d5926e63939aaa536"
+        }
+      ]
+    },
+    {
+      "name": "tornado",
+      "version": "6.5.8",
+      "direct": false,
+      "license_summary": "Apache-2.0",
+      "distribution": "https://pypi.org/project/tornado/6.5.8/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/tornado-6.5.8/tornado-6.5.8.dist-info/licenses/LICENSE",
+          "source": "installed distribution: tornado-6.5.8.dist-info/licenses/LICENSE",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        }
+      ]
+    },
+    {
+      "name": "typing-extensions",
+      "version": "4.16.0",
+      "direct": false,
+      "license_summary": "PSF-2.0",
+      "distribution": "https://pypi.org/project/typing-extensions/4.16.0/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/typing-extensions-4.16.0/typing_extensions-4.16.0.dist-info/licenses/LICENSE",
+          "source": "installed distribution: typing_extensions-4.16.0.dist-info/licenses/LICENSE",
+          "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+        }
+      ]
+    },
+    {
+      "name": "tzdata",
+      "version": "2026.4",
+      "direct": false,
+      "license_summary": "Apache-2.0; public-domain timezone data",
+      "distribution": "https://pypi.org/project/tzdata/2026.4/",
+      "requires_dist": [],
+      "license_files": [
+        {
+          "file": "docs/licenses/tzdata-2026.4/tzdata-2026.4.dist-info/licenses/LICENSE",
+          "source": "installed distribution: tzdata-2026.4.dist-info/licenses/LICENSE",
+          "sha256": "df58f69ea88683035d720b5375bcef0cf5aeaa98a1d098d572e0992c378deb46"
+        },
+        {
+          "file": "docs/licenses/tzdata-2026.4/tzdata-2026.4.dist-info/licenses/licenses/LICENSE_APACHE",
+          "source": "installed distribution: tzdata-2026.4.dist-info/licenses/licenses/LICENSE_APACHE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+        }
+      ]
+    },
+    {
+      "name": "urllib3",
+      "version": "2.6.3",
+      "direct": false,
+      "license_summary": "MIT",
+      "distribution": "https://pypi.org/project/urllib3/2.6.3/",
+      "requires_dist": [
+        "brotli>=1.2.0; (platform_python_implementation == 'CPython') and extra == 'brotli'",
+        "brotlicffi>=1.2.0.0; (platform_python_implementation != 'CPython') and extra == 'brotli'",
+        "h2<5,>=4; extra == 'h2'",
+        "pysocks!=1.5.7,<2.0,>=1.5.6; extra == 'socks'",
+        "backports-zstd>=1.0.0; (python_version < '3.14') and extra == 'zstd'"
+      ],
+      "license_files": [
+        {
+          "file": "docs/licenses/urllib3-2.6.3/urllib3-2.6.3.dist-info/licenses/LICENSE.txt",
+          "source": "installed distribution: urllib3-2.6.3.dist-info/licenses/LICENSE.txt",
+          "sha256": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686"
+        }
+      ]
+    }
+  ]
+}

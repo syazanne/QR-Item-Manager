@@ -14,6 +14,7 @@ data/*.db-wal
 data/*.db-shm
 data/manual_text/
 data/scanner_component/
+data/scanner_component_jsqr/
 data/backups/
 manuals/*
 !manuals/.gitkeep

@@ -620,6 +620,12 @@ def edit_library_record(record_id: str) -> None:
         st.query_params["record_id"] = record_id
 
 
+def scan_another_record() -> None:
+    go_to("Home")
+    st.session_state.pop("selected_record_id", None)
+    set_scanner_active(True)
+
+
 def render_library_record(record_id: str) -> None:
     st.title("Library")
     record = get_record(DB_PATH, record_id)
@@ -657,11 +663,11 @@ def render_library_record(record_id: str) -> None:
                 st.image(str(QRCODES_DIR / record["qr_filename"]), width=180, caption=record_id)
             else:
                 st.caption("Not available")
-    with st.container(width=400):
-        back, edit = st.columns([1.8, 1], gap="small")
-        back.button("Back to Library", key="library_back", on_click=request_navigation, args=("Library",))
+    with st.container(horizontal=True, gap="small"):
+        st.button("Back to Library", key="library_back", on_click=request_navigation, args=("Library",))
+        st.button("Scan another QR", key="library_scan_next", on_click=scan_another_record)
         if record is not None:
-            edit.button("Edit Record", key="library_manage", on_click=edit_library_record, args=(record_id,))
+            st.button("Edit Record", key="library_manage", on_click=edit_library_record, args=(record_id,))
 
 
 def scroll_to_top() -> None:

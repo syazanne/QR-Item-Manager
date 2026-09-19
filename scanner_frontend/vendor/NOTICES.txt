@@ -1,0 +1,16 @@
+jsQR 1.4.0
+Project: https://github.com/cozmo/jsQR
+Release: https://registry.npmjs.org/jsqr/-/jsqr-1.4.0.tgz
+Source commit: 49a9633931fb8030ac2fc9cecc121d6e5a19f9a3
+License: Apache License 2.0 (see LICENSE.jsQR.txt alongside this file).
+Contributors listed by the release: Cosmo Wolfe and Jefff Nelson.
+
+jsQR.js is an unmodified copy of package/dist/jsQR.js from the release.
+SHA-256: bc40c8a15196236b2314db0856f72ca0b49980cd5413b8c852a7349f5fee0859
+The release archive and corresponding source tree contain no separate NOTICE file.
+This attribution file was assembled by QR Item Manager; it is not an upstream
+NOTICE file and does not change the upstream license.
+
+Keep LICENSE.jsQR.txt with redistributions of this decoder. The camera controls,
+preview and Streamlit integration outside this vendor folder belong to QR Item
+Manager and are separate from the unmodified jsQR distribution.

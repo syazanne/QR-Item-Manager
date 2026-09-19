@@ -6,7 +6,8 @@ computer running the app.
 ## 1. Set up your fields
 
 Open **Admin Panel → Field Settings**. Enter a field name, choose its type, and
-press **Save** on that row. Press **Add** to create another field.
+press **Save** on that row. Press **Add** to create another field. If no rows
+are shown, press **Add** first.
 
 - **Save:** Save each field after entering or changing its name, type, or date
   format. **Unsaved** means the changes have not been saved yet. **Saved ✓**
@@ -25,6 +26,8 @@ For example:
 | CheckDate | Date | Pick a date from the calendar |
 
 You can have up to **six fields**, with names up to **ten characters** long.
+Use a different name for each field; **Record ID** and **QR Code** are reserved.
+These field settings apply to every item in this installation.
 For Date fields, choose **DD/MM/YYYY**, **MM/DD/YYYY**, or **YYYY/MM/DD** before
 saving the field settings.
 
@@ -34,7 +37,8 @@ Open **Manage** and press **Add**. A new row appears with an automatic Record ID
 such as `REC-0001`. Click that ID to open **Record Details**.
 
 IDs may have gaps if earlier records were deleted. Keep the assigned ID: it is
-the permanent reference used by that item's QR label.
+the permanent reference used by that item's QR label. The four-digit format is
+a minimum width, not a limit: `REC-9999` is followed by `REC-10000`.
 
 ## 3. Enter and save details
 
@@ -45,6 +49,11 @@ changes to save. Saving one field does not save the other fields.
 **Last updated** shows the last saved record change in UTC. If you try to leave
 using **DONE** or the sidebar with unsaved edits, choose **Stay** to keep editing
 or **Leave** to discard those edits.
+
+If a date field shows **Previous saved text**, its old value could not be read
+as a stored date. Choose the intended date and **Save** to replace it. To remove
+that old value instead, select **Clear saved value** and press **Save**. The old
+value stays saved until you take one of these actions.
 
 ## 4. Generate and print the QR label
 
@@ -64,6 +73,9 @@ Press **DONE** to return to Manage.
 Open **Home**, press the round **Scan QR** button, and allow camera access when
 asked. Hold the label inside the square preview until it is read. The app opens
 the matching record in **Library** and stops the camera.
+
+After checking the details, press **Scan another QR** beside **Back to Library**
+to open the scanner immediately and check the next item.
 
 Use **Stop Scanner** to cancel scanning. You can also open **Library** from the
 sidebar, search for an item, and click its Record ID without using a camera.
@@ -109,7 +121,8 @@ it does not combine the current records with the uploaded records.
 | Camera is dark or paused | Check camera permission and the selected camera. Click **Show camera** if offered. In Brave, also check the site's **Autoplay** permission. |
 | No camera video arrives | Choose another camera or press **Try again** when offered. |
 | Generate QR is disabled | Save at least one nonblank value and save any edited fields. |
-| QR is not active | Open the item through Manage, save a value if needed, and generate its QR again. |
+| Camera access needs HTTPS or localhost | On the computer running the app, use its Local URL (default `http://localhost:8502`). Scanning from another device requires an HTTPS address for the app; that device's `localhost` refers to itself. |
+| QR is not active | Find the item in Manage, save a value if needed, and generate its QR again. If the record does not exist in this installation, check that you opened the correct app and data folder. |
 | An old date appears as saved text | Choose the intended date in the calendar and Save. The app does not guess ambiguous dates such as `1/2/94`. |
 | A search finds no records | Clear the search, or try the Record ID, an item value, or the date in its displayed format. |
 
@@ -119,3 +132,6 @@ backup first if you may need to recover them later.
 
 Library provides a read-only view, but the app does not have user permissions:
 anyone with app access can still open Manage and Admin Panel.
+
+Unsaved-change prompts apply to navigation inside the app. Save before refreshing
+the browser or closing the tab; those actions are not protected by the prompt.

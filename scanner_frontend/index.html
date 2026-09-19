@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>QR camera preview</title>
   <link rel="stylesheet" href="style.css">
-  <script defer src="html5-qrcode.min.js"></script>
+  <link rel="license" href="vendor/LICENSE.jsQR.txt">
+  <script defer src="vendor/jsQR.js"></script>
   <script defer src="main.js"></script>
 </head>
 <body>
@@ -15,7 +16,7 @@
       <select id="camera" aria-label="Choose camera"></select>
     </div>
     <div id="preview" aria-label="Live camera preview">
-      <div id="qr-reader"></div>
+      <video id="camera-video" muted playsinline></video>
       <span id="scan-guide" aria-hidden="true"></span>
       <div id="placeholder"><span id="placeholder-text">Starting camera…</span></div>
     </div>

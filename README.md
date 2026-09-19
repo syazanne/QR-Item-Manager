@@ -4,6 +4,10 @@
 fields and QR labels. Create an item record, save its details, generate a label,
 then scan it to open the record in Library.
 
+This is the **project-1-item-manager2** branch, which uses the bundled jsQR
+decoder and defaults to **http://localhost:8502**. The original port-8501 version
+is kept separately in the owner's private `private-project` repository.
+
 ## Purpose
 
 Keep item information organised and easy to find with a QR label. QR Item Manager
@@ -21,13 +25,14 @@ and [Licensing](#licensing) for its limits and reuse status.
 
 Repository: `QR-Item-Manager` · App name: **QR Item Manager**
 
-This repository contains two project branches:
+This repository contains two projects. Project 1 also has a separate jsQR
+migration branch:
 
-- [project-1-item-manager](https://github.com/syazanne/QR-Item-Manager/tree/project-1-item-manager): QR-based item management system (this branch).
-- [project-2-ai-prototype](https://github.com/syazanne/QR-Item-Manager/tree/project-2-ai-prototype): AI-assisted manual/support prototype.
-
-The [main branch](https://github.com/syazanne/QR-Item-Manager/tree/main) provides
-the general repository introduction. Each project has its own code and setup instructions.
+| Branch | Contents |
+| --- | --- |
+| [main](https://github.com/syazanne/QR-Item-Manager/tree/main) | General repository introduction. |
+| [project-1-item-manager2](https://github.com/syazanne/QR-Item-Manager/tree/project-1-item-manager2) | **This version:** QR Item Manager with jsQR, default port **8502**. Follow the instructions below. |
+| [project-2-ai-prototype](https://github.com/syazanne/QR-Item-Manager/tree/project-2-ai-prototype) | AI-assisted manual/support prototype, with its own setup instructions. |
 
 **New here?** Follow the [step-by-step user guide](docs/USER_GUIDE.md), covering
 field setup, your first item, QR labels, scanning, updates, and Backup & Restore.
@@ -61,7 +66,7 @@ flowchart LR
 
 | Requirement | What it is for |
 | --- | --- |
-| **Python 3** | Runs the app. Step 3 below explains how to check or install it. |
+| **Python 3.9 or later, except 3.9.7** | Required by the checked package versions. Tested with Python **3.9.6**; see step 3 to check your installation. |
 | **A terminal** | Runs the setup commands. Use your computer's Terminal app or the terminal inside VS Code. |
 | **A browser** | Displays the app. Chrome and Brave have been used during development. |
 | **Internet access for setup** | Downloads the project and its Python packages. |
@@ -73,8 +78,9 @@ No separate database server, user account inside the app, or API key is required
 
 You do **not** need to download Streamlit or the other Python packages manually.
 After Python is installed, the command in **step 5** installs everything listed
-in [requirements.txt](requirements.txt): Streamlit, qrcode, Pillow, pypdf, and
-streamlit-qrcode-scanner.
+in [requirements.txt](requirements.txt): Streamlit, qrcode, Pillow, and pypdf.
+The jsQR browser decoder and its license are already included in the repository;
+no separate scanner package or npm installation is needed.
 
 ## Run locally
 
@@ -83,8 +89,8 @@ you then run it on your computer and use it in your browser.
 
 1. **Download Project 1 from GitHub.**
 
-   Open the [Project 1 branch](https://github.com/syazanne/QR-Item-Manager/tree/project-1-item-manager).
-   Check that the branch selector says **project-1-item-manager**, then click
+   Open the [jsQR migration branch](https://github.com/syazanne/QR-Item-Manager/tree/project-1-item-manager2).
+   Check that the branch selector says **project-1-item-manager2**, then click
    **Code → Download ZIP**. The `main` branch only contains the repository introduction.
    If the repository is private, sign in with an account that has access.
 
@@ -101,8 +107,9 @@ you then run it on your computer and use it in your browser.
    python3 --version
    ```
 
-   You should see a Python 3 version number. If Python is already installed,
-   continue to step 4. If the command is not found:
+   You should see Python **3.9 or later**. Streamlit 1.50.0 excludes Python
+   **3.9.7**. If your version meets these requirements, continue to step 4.
+   If Python is missing or your version does not meet them:
 
    - **macOS:** download a Python 3 installer from the
      [official Python website](https://www.python.org/downloads/macos/), open it,
@@ -111,14 +118,7 @@ you then run it on your computer and use it in your browser.
      the [official Python Linux guidance](https://docs.python.org/3/using/unix.html#on-linux).
      Make sure your installation includes pip and the venv module for the next steps.
 
-   **macOS terminal alternative:** if you already have
-   [Homebrew](https://formulae.brew.sh/formula/python@3.14) installed, you can run:
-
-   ```bash
-   brew install python
-   ```
-
-   Use one installation method, then reopen the terminal in the project folder
+   After installation, reopen the terminal in the project folder
    and run `python3 --version` again. Install Python before trying any `pip` or
    `streamlit` command.
 
@@ -152,7 +152,7 @@ you then run it on your computer and use it in your browser.
 7. **Open the app in your browser.**
 
    If it does not open automatically, copy the **Local URL** shown in the
-   terminal into your browser. It is usually **http://localhost:8501**.
+   terminal into your browser. This branch defaults to **http://localhost:8502**.
    You should see **QR Item Manager**. Continue with [First record](#first-record)
    below to set up fields and add your first item.
 
@@ -174,7 +174,7 @@ No separate database server is required.
 With Git installed, run:
 
 ```bash
-git clone --branch project-1-item-manager https://github.com/syazanne/QR-Item-Manager.git
+git clone --branch project-1-item-manager2 https://github.com/syazanne/QR-Item-Manager.git
 cd QR-Item-Manager
 ```
 
@@ -182,16 +182,34 @@ Then continue from **step 3** above in the same terminal.
 
 </details>
 
-Tested with Python 3.9.6 and Streamlit 1.50. Package requirements are listed in
-`requirements.txt`. To use a different port, run
-`python -m streamlit run app.py --server.port 8502`.
+Tested with Python **3.9.6** and Streamlit **1.50.0**. Package minimum versions
+are listed in `requirements.txt`; pip may select different versions for your
+Python version and operating system. The exact reviewed development versions
+are recorded in the [dependency inventory](docs/licenses/README.md).
+To use a different port, for example **8503**, run
+`python -m streamlit run app.py --server.port 8503`.
+
+### Original checkpoint
+
+The original `project-1-item-manager` branch is stored in the separate private
+`private-project` repository. It has been removed as a branch from this public
+repository. This jsQR version runs independently and does not need the original
+app or its `streamlit-qrcode-scanner` package installed.
+
+To run the original again, use a separate folder and Python environment, follow
+that branch's README, and start it with `--server.port 8501`. Saved data belongs
+to each folder; different ports alone do not isolate data or synchronise it.
+
+The license review covers this jsQR version. Removing the old branch does not
+erase shared Git history; other branches and earlier revisions are outside this
+review. See [Sharing this version](docs/LICENSING.md#sharing-this-version).
 
 ## Pages
 
 | Page | Purpose |
 | --- | --- |
 | **Home** | Press the circular **Scan QR** button to open the camera. A successful scan opens the item's Library view. **How to use** opens the user guide. |
-| **Library** | Search and view saved records. The **Edit Record** button on a record opens its editable details. |
+| **Library** | Search and view saved records. **Scan another QR** opens the scanner for the next item; **Edit Record** opens editable details. |
 | **Manage** | Add, search, edit, or delete records, and generate, download, or print QR labels. |
 | **Admin Panel** | Configure **Field Settings** and use **Backup & Restore**. |
 
@@ -238,7 +256,9 @@ to replace current records and field settings. Restore does not merge datasets.
 Before replacement, a safety copy is saved locally; retrieve it with **Download
 previous data** and upload it through Restore to recover the earlier state.
 
-Invalid archives are rejected. Compressed and expanded size limits are 100 MB.
+Invalid archives are rejected. Compressed and expanded size limits are 100 MB
+(100 × 1024 × 1024 bytes). A ZIP can contain up to 10,001 entries: its manifest
+and up to 10,000 QR images. This archive limit is separate from Record ID numbering.
 Restore uses a database transaction and separate QR files; failure rolls back
 records, and a failed safety backup prevents replacement. IDs, values, and
 original timestamps are preserved. Active QR images are rebuilt from the IDs;
@@ -260,10 +280,14 @@ Keep downloaded backups on separate storage as well as this computer. See the
 | `backup_utils.py` | Backup validation, export, and restore. |
 | `tests/` | Database, UI flow, backup, label, and scanner tests. |
 | `docs/USER_GUIDE.md` | Step-by-step instructions, also shown inside the app. |
+| `.streamlit/config.toml` | Sets this branch's default port to 8502. |
+| `LICENSE` / `THIRD_PARTY_NOTICES.md` | MIT license for original code and notices for third-party components. |
+| `docs/LICENSING.md` / `docs/licenses/` | Review scope, dependency inventory and retained license texts. |
 | `data/machines.db` | Local database; the existing filename is retained. |
 | `data/backups/` | Automatic ZIP copies made before restore. |
 | `qr_codes/` | Generated and restored QR images. |
-| `data/scanner_component/` | Generated local scanner assets. |
+| `data/scanner_component_jsqr/` | Generated local scanner assets, including the decoder license. |
+| `scanner_frontend/vendor/` | Unmodified jsQR 1.4.0, its full license and attribution. |
 
 Local databases, QR images, backups, and generated scanner assets are excluded
 from Git. Legacy tables and unused QR files are retained locally; deleting a
@@ -280,6 +304,9 @@ access-control role: there is no login, and anyone with app access can navigate
 to Manage and Admin Panel. Viewer/admin permissions are a next step if the app
 will be shared with other users.
 
+The interface and user guide are currently in English. Bahasa Melayu and
+Japanese options are planned but are not implemented in this version.
+
 Lists currently display all matching records without pagination. Pagination is
 an option if the collection grows large. Last updated records only the latest
 timestamp, not a history of edits or who made them.
@@ -290,14 +317,19 @@ Streamlit is free, open-source software under Apache 2.0; running this app local
 does not require a paid Streamlit subscription. Hosting services can have their
 own prices and terms. See [Streamlit's terms](https://streamlit.io/terms-of-use).
 
-**This project's own open-source license has not been selected yet.** Making a
-GitHub repository public does not by itself grant permission to reuse, modify,
-or redistribute its code. A project license still needs to be added before
-offering those permissions to everyone.
+The original code and documentation in this branch use the [MIT License](LICENSE),
+copyright 2026 syazanne. You can use, modify and redistribute them, including
+commercially, while retaining the license and copyright notice.
 
-See the [dependency license review](docs/LICENSING.md) for the checked packages,
-redistribution obligations, and the distinction between this project and its
-dependencies.
+Third-party software keeps its own licenses. The bundled **jsQR 1.4.0** decoder
+uses **Apache-2.0**, with its full license and attribution included. Keep
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and the supplied third-party
+license files when sharing this checkout. Python dependencies are installed
+separately by pip; do not include your `.venv` or local data in a source release.
+
+See the [license review](docs/LICENSING.md) for the checked versions, dependency
+inventory and distribution scope. This review covers the jsQR migration branch
+(port 8502); it does not cover the original decoder on port 8501 or Project 2.
 
 ## Tests
 
