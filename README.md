@@ -44,26 +44,93 @@ flowchart LR
 
 ## Run locally
 
-Tested with Python 3.9.6 and Streamlit 1.50. Dependencies are listed in
-`requirements.txt`. These commands are for macOS/Linux.
+Follow these steps on **macOS/Linux**. Downloading the ZIP gives you the code;
+you then run it on your computer and use it in your browser.
+
+1. **Download Project 1 from GitHub.**
+
+   Open the [Project 1 branch](https://github.com/syazanne/QR-Item-Manager/tree/project-1-item-manager).
+   Check that the branch selector says **project-1-item-manager**, then click
+   **Code → Download ZIP**. The `main` branch only contains the repository introduction.
+   If the repository is private, sign in with an account that has access.
+
+2. **Extract the ZIP and open its folder in a terminal.**
+
+   Extract the downloaded ZIP. Open the folder containing **app.py** and
+   **requirements.txt**. For example, in VS Code choose **File → Open Folder**,
+   select that extracted folder, then choose **Terminal → New Terminal**.
+   Run the remaining commands in this terminal, one step at a time.
+
+3. **Check that Python is installed.**
+
+   ```bash
+   python3 --version
+   ```
+
+   You should see a Python version number. If the command is not found, install
+   Python 3 and reopen the terminal before continuing.
+
+4. **Create and activate the project's Python environment.**
+
+   This keeps the app's packages separate from your other projects.
+
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+5. **Install the required packages.**
+
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
+
+   Wait for installation to finish successfully before continuing.
+
+6. **Start the app.**
+
+   ```bash
+   python -m streamlit run app.py
+   ```
+
+   Keep this terminal open while using the app.
+
+7. **Open the app in your browser.**
+
+   If it does not open automatically, copy the **Local URL** shown in the
+   terminal into your browser. It is usually **http://localhost:8501**.
+   You should see **QR Item Manager**. Continue with [First record](#first-record)
+   below to set up fields and add your first item.
+
+To stop the app, press **Ctrl+C** in the terminal. Next time, open a terminal in
+the same project folder and run these two commands; you do not need to download
+the project or reinstall its packages each time:
+
+```bash
+source .venv/bin/activate
+python -m streamlit run app.py
+```
+
+Records are saved on your computer in SQLite and remain after the app is stopped.
+No separate database server is required.
+
+<details>
+<summary>Alternative: get the code with Git instead of downloading a ZIP</summary>
+
+With Git installed, run:
 
 ```bash
 git clone --branch project-1-item-manager https://github.com/syazanne/QR-Item-Manager.git
 cd QR-Item-Manager
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-streamlit run app.py
 ```
 
-The clone command selects the item-manager branch explicitly because this
-repository also contains project-2 branches.
-The repository is private, so cloning requires an account with access. If you
-already have the project, run the setup commands from its existing folder.
-Open the local URL printed by Streamlit. To choose a port, use
-`streamlit run app.py --server.port 8502`.
+Then continue from **step 3** above in the same terminal.
 
-Records are stored locally in SQLite; no separate database server is required.
+</details>
+
+Tested with Python 3.9.6 and Streamlit 1.50. Package requirements are listed in
+`requirements.txt`. To use a different port, run
+`python -m streamlit run app.py --server.port 8502`.
 
 ## Pages
 
