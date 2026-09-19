@@ -129,6 +129,50 @@ def set_scanner_active(active: bool) -> None:
     st.session_state["scanner_active"] = active
 
 
+def render_home_quick_start() -> None:
+    # Keep this short flow aligned with docs/USER_GUIDE.md.
+    steps = [
+        ("Set up fields", "Admin Panel → Field Settings", "Name + type → Save. Add up to 6 fields."),
+        ("Add an item", "Manage → Add → Record ID", "Click the new ID to open its details."),
+        ("Save details", "Enter values → Save each field", "Save at least one nonblank value for a QR."),
+        ("Make a label", "Generate QR → Download QR / Print QR label", "Save all edits first. DONE returns to Manage."),
+        ("Scan & view", "Home → Scan QR → Library", "Allow the camera, then scan your label."),
+        ("Update anytime", "Edit Record → Save each field → DONE", "Update details while keeping the same Record ID."),
+    ]
+    cards = "".join(
+        f'<li><strong><span>{number}</span> {html.escape(title)}</strong>'
+        f'<p>{html.escape(route)}</p><small>{html.escape(hint)}</small></li>'
+        for number, (title, route, hint) in enumerate(steps, 1)
+    )
+    with st.container(key="home_quick_start", width=1000):
+        st.html(f"""
+            <style>
+                .home-flow {{ margin-top: .5rem; }}
+                .home-flow h2 {{ font-size: 1.1rem; text-align: center; padding: 0 0 .8rem; }}
+                .home-flow ol {{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+                    gap: .75rem; list-style: none; padding: 0; margin: 0; }}
+                .home-flow li {{ border: 1px solid #d8dee8; border-radius: 12px;
+                    padding: .85rem; margin: 0; }}
+                .home-flow strong {{ font-size: .95rem; }}
+                .home-flow strong span {{ display: inline-flex; align-items: center;
+                    justify-content: center; width: 1.5rem; height: 1.5rem;
+                    border-radius: 50%; background: #ff4b4b; color: white; margin-right: .3rem; }}
+                .home-flow p {{ font-size: .85rem; line-height: 1.5; margin: .5rem 0 .2rem; }}
+                .home-flow small {{ font-size: .8rem; line-height: 1.4; }}
+                @media (max-width: 800px) {{
+                    .home-flow ol {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
+                }}
+                @media (max-width: 480px) {{
+                    .home-flow ol {{ grid-template-columns: 1fr; }}
+                }}
+            </style>
+            <section class="home-flow" aria-label="Quick start">
+                <h2>Start with one item</h2><ol>{cards}</ol>
+            </section>
+        """)
+        st.caption("Keep a copy of your saved data: Admin Panel → Backup & Restore.")
+
+
 def render_home() -> None:
     st.html("""
         <style>
@@ -189,11 +233,13 @@ def render_home() -> None:
                 outline-offset: 5px;
             }
             .st-key-home_scan_hint p { text-align: center; }
+            .st-key-home_intro p { text-align: center; }
         </style>
     """)
     with st.container(horizontal_alignment="center", gap="medium"):
         with st.container(key="home_intro", width=880):
             st.title("QR Item Manager")
+            st.caption("Organise your items with up to six custom fields and QR labels.")
         with st.container(key="home_scan_stage", width=420, horizontal_alignment="center", gap="small"):
             if not st.session_state.get("scanner_active"):
                 with st.container(key="home_scan_action", width=120):
@@ -204,22 +250,24 @@ def render_home() -> None:
                     st.caption("You can also browse records in Library.")
                 st.button("How to use", key="home_help", type="tertiary",
                           on_click=go_to, args=("How to use",))
-                return
-            try:
-                from scanner import qrcode_scanner
-                st.caption("Camera preview · Place your QR code inside the square.")
-                value = qrcode_scanner(key="record_qr_scanner")
-            except ImportError:
-                st.info("Browser QR scanning is unavailable. Use Library to search and view records.")
             else:
-                if value:
-                    if hasattr(value, "read"):
-                        value = value.read()
-                    if isinstance(value, bytes):
-                        value = value.decode("utf-8")
-                    if open_scanned_record(str(value)):
-                        st.rerun()
-            st.button("Stop Scanner", key="home_scan_stop", on_click=set_scanner_active, args=(False,))
+                try:
+                    from scanner import qrcode_scanner
+                    st.caption("Camera preview · Place your QR code inside the square.")
+                    value = qrcode_scanner(key="record_qr_scanner")
+                except ImportError:
+                    st.info("Browser QR scanning is unavailable. Use Library to search and view records.")
+                else:
+                    if value:
+                        if hasattr(value, "read"):
+                            value = value.read()
+                        if isinstance(value, bytes):
+                            value = value.decode("utf-8")
+                        if open_scanned_record(str(value)):
+                            st.rerun()
+                st.button("Stop Scanner", key="home_scan_stop", on_click=set_scanner_active, args=(False,))
+        if not st.session_state.get("scanner_active"):
+            render_home_quick_start()
 
 
 def render_user_guide() -> None:

@@ -4,6 +4,21 @@
 fields and QR labels. Create an item record, save its details, generate a label,
 then scan it to open the record in Library.
 
+## Purpose
+
+Keep item information organised and easy to find with a QR label. QR Item Manager
+is designed for individuals and teams managing everyday items, books, tools,
+supplies, or equipment at home, in a library, workshop, university, or workplace.
+
+Choose up to **six custom fields** to match what you organise: for example,
+ItemName, Location, Owner, SerialNo, Service, or CheckDate. Each field can hold
+**Text / Number** or a **Date**. Everyone uses the same field settings in one
+installation, so you can adapt the system without changing code.
+
+This is a simple item-record tool. It does not include borrowing workflows,
+stock accounting, or user access controls. See [Current scope](#current-scope)
+and [Licensing](#licensing) for its limits and reuse status.
+
 Repository: `QR-Item-Manager` · App name: **QR Item Manager**
 
 This repository contains two project branches:
@@ -268,6 +283,21 @@ will be shared with other users.
 Lists currently display all matching records without pagination. Pagination is
 an option if the collection grows large. Last updated records only the latest
 timestamp, not a history of edits or who made them.
+
+## Licensing
+
+Streamlit is free, open-source software under Apache 2.0; running this app locally
+does not require a paid Streamlit subscription. Hosting services can have their
+own prices and terms. See [Streamlit's terms](https://streamlit.io/terms-of-use).
+
+**This project's own open-source license has not been selected yet.** Making a
+GitHub repository public does not by itself grant permission to reuse, modify,
+or redistribute its code. A project license still needs to be added before
+offering those permissions to everyone.
+
+See the [dependency license review](docs/LICENSING.md) for the checked packages,
+redistribution obligations, and the distinction between this project and its
+dependencies.
 
 ## Tests
 
